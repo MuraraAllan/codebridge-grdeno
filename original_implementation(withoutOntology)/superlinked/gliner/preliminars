@@ -1,0 +1,33 @@
+https://huggingface.co/knowledgator/gliclass-instruct-large-v1.0 <<< Instruct based generalist
+https://arxiv.org/html/2508.07662v1
+
+
+https://arxiv.org/pdf/2605.10108
+
+
+GLiNER-Relex: A Unified Framework for Joint Named Entity
+Recognition and Relation Extraction
+Ihor Stepanov1 Oleksandr Lukashov1 Mykhailo Shtopko1 Vivek Kalyanarangan 2
+1Knowledgator Engineering, Kyiv, Ukraine
+2Baldor Technologies Pvt. Ltd. (IDfy), Mumbai, India
+ingvarstep@knowledgator.com
+Abstract
+Joint named entity recognition (NER) and relation extraction (R
+
+
+<<<<< Bi-encoders
+
+
+https://arxiv.org/html/2605.10108v1 >>> Tripletanian kg 
+
+GLiNER-Relex: A Unified Framework for Joint Named Entity Recognition and Relation Extraction
+
+
+https://huggingface.co/knowledgator/gliclass-edge-v3.0 <<< traditional / suplementar for embedding / on device accelration
+
+
+
+https://huggingface.co/knowledgator/opir-multitask-multilang-v1.0 <<<< TaskClassifier for handling auto-scoped automacy
+
+
+https://huggingface.co/knowledgator/gliclass-multilang-ultra - poliglota

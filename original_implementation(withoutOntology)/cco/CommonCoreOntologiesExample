@@ -1,0 +1,31 @@
+https://github.com/CommonCoreOntology/CommonCoreOntologies/blob/develop/src/cco-modules/EventOntology.ttl
+
+
+https://github.com/CommonCoreOntology/CommonCoreOntologies/blob/develop/src/cco-modules/TimeOntology.ttl
+
+
+
+https://github.com/CommonCoreOntology/CommonCoreOntologies/blob/develop/src/cco-modules/AgentOntology.ttl
+
+
+The Common Core Ontologies
+Mark JENSEN a,b,1
+, Giacomo DE COLLE b,c, Sean KINDYA c
+,
+Cameron MORE b,d, Alexander P. COX b,d, and John BEVERLEY b,c,e
+aU.S. Customs and Border Protection
+b National Center for Ontological Research c University at Buffalo
+d CUBRC, Inc. e Institute for Artificial Intelligence and Data Science
+Abstract. The Common Core Ontologies (CCO) are designed as a mid-level
+ontology suite that extends the Basic Formal Ontology. In 2017, CUBRC, Inc. made
+CCO openly available. CCO has since been increasingly adopted by a broad group
+of users and applications and is proposed as the first standard mid-level ontology.
+Despite these successes, documentation of the contents and design patterns of the
+CCO has been comparatively minimal. This paper is a step toward providing
+enhanced documentation for the mid-level ontology suite through a discussion of
+the contents of the eleven ontologies that collectively comprise the Common Core
+Ontology suite.
+Keywords. Domain-specific ontologies, Common Core O
+
+
+https://arxiv.org/pdf/2404.17758
