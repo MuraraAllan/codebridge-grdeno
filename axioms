@@ -1,0 +1,35 @@
+# 1. Axiom of Asynchrony (Temporal Independence)
+
+Core: The timelines of sub-components are parallel, not concurrent.
+
+Extended: Event streams are appended continuously in the background. Generating a StateTransition for a Partial at t1 does not halt or require synchronization with a Feature transition at t2. Time travel through the ontology is achieved strictly by filtering the timestamp of the isolated process layer.
+
+# 2. Axiom of Non-Inverse Propagation (Scope Isolation)
+
+Core: An activity whose target is a lower component does not alter the direct properties of the superior component.
+
+Extended: Enforced physically by the ex:PartialAutonomyShape (SHACL). An autonomous agent working on a fix/partial branch is cryptographically blocked from generating a process event that targets the parent Document or Feature. Micro-autonomy is strictly contained within its permitted macro-boundary.
+
+# 3. Axiom of Static Identity (Immutable Being)
+
+Core: ex:doc_101 retains its conceptual ontological identity even if the entire tree of sub-components is transitioning states simultaneously.
+
+Extended: The Traditional Space nodes are completely decoupled from state. Because state is reified into independent Activity nodes, the core nouns (Document, Feature) never undergo structural mutation. Their JSON-LD URIs serve as permanent, unbreakable anchors for the entire lifecycle.
+
+# 4. Axiom of Zero-Mutation (Append-Only Provenance) (New)
+
+Definition: Past states cannot be overwritten, deleted, or directly modified.
+
+Execution: Moving from Review to Approved does not involve replacing a string on the Partial node. It requires injecting a brand new StateTransition object into the graph. The "current state" is mathematically derived by querying the event with the latest prov:endedAtTime.
+
+# 5. Axiom of Automatous Inference (Macro-Resolution) (New)
+
+Definition: Superior components derive their operational status implicitly from the event history of their dependencies, not from direct micro-task mutations.
+
+Execution: If a Partial fails SHACL validation and its micro-agent corrects it to Rejected, the parent Feature does not need a new commit. The background SPARQL engine dynamically projects the ex:BlockedByPartial macro-state instantly, bridging micro-failures to macro-awareness without violating Axiom 2.
+
+# 6. Axiom of Horizontal Domain Isolation (Strict Bounding)
+
+Definition: An agent's provenance establishes an absolute boundary on its target scope. Cross-domain mutations (Code modifying Docs, or Docs modifying Code) are mathematically impossible at the Process Layer.
+
+Execution: All cross-domain synchronizations must be handled by the Macro-Inference Engine (SPARQL). If code changes, the Document state is dynamically inferred as Outdated by the engine, triggering a safe, isolated task for the Document Agent to act upon within its own domain. Direct horizontal overwriting is strictly forbidden.
