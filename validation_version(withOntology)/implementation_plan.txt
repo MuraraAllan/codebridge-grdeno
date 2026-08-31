@@ -1,0 +1,306 @@
+Implementation Plan
+===================
+
+FeedForward(>>>> Convert the design evaluation into an executable hackathon build plan that produces the final deliverables while preserving the ontology constraints.)
+
+ContextTaskInterpreting
+-----------------------
+
+userMessageTaskList:
+1. Reprocess the previous planning work.
+2. Use design_evaluation.txt as the controlling evaluation source.
+3. Create an implementation plan for the full hackathon solution.
+
+userMessageIntention:
+Move from evaluation design into an actionable build sequence with clear artifacts, ownership, dependencies, and validation gates.
+
+userMessageContextualDescription:
+The project now has the ontology task list and design evaluation groundwork. The next step is to implement the solution in a way that can produce the four final deliverables: complete code/changelog, reproduction guide, solution video, and agent trajectories.
+
+Implementation Thesis
+---------------------
+
+Build the smallest complete system that can prove the ontology-governed agent workflow:
+
+- captures micro-agent activity as append-only telemetry,
+- lets only ONTO_CONTROLLER author graph payloads,
+- validates graph payloads with deterministic rules,
+- derives macro-state through inference,
+- displays before-processing and struggling/validation views,
+- evaluates the same 10 cases against a baseline,
+- and closes with lastring only after evidence is complete.
+
+Non-Goals for the First Implementation
+--------------------------------------
+
+- Do not build a full production UI before the evidence pipeline works.
+- Do not integrate private credentials or external paid services into the required reproduction path.
+- Do not allow individual agents to write graph payloads directly.
+- Do not make consequential repository actions without a human approval gate.
+- Do not hide warning or failure states behind success-shaped fallbacks.
+
+Repository Artifact Plan
+------------------------
+
+| Artifact | Path | Purpose |
+| --- | --- | --- |
+| Ontology task list | `validation_version(withOntology)/docs/ontology-representation-task-list.md` | Existing source of task and axiom requirements. |
+| Design evaluation | `validation_version(withOntology)/design_evaluation.txt` | Existing source of metrics, cases, scoring, and evidence requirements. |
+| Implementation plan | `validation_version(withOntology)/implementation_plan.txt` | This execution plan. |
+| Ontology vocabulary | `validation_version(withOntology)/ontology/context.jsonld` | JSON-LD context for anchors, events, states, agents, domains, views, and lastring. |
+| SHACL shapes | `validation_version(withOntology)/ontology/shapes.ttl` | Deterministic validation rules for taxonomy, scope, identity, append-only chains, domain isolation, inference readiness, and lastring. |
+| Sample graph payload | `validation_version(withOntology)/ontology/graph-payload.jsonld` | POC graph with anchors, telemetry-derived events, validation rows, inferred macro-states, and lastring attempt. |
+| Inference queries | `validation_version(withOntology)/ontology/inference.rq` | SPARQL CONSTRUCT/SELECT queries for macro-state projections and current state reads. |
+| Evaluation cases | `validation_version(withOntology)/evaluation/cases.json` | Shared 10-case dataset for baseline and final solution. |
+| Baseline runner | `validation_version(withOntology)/evaluation/baseline.md` | Manual/direct-agent procedure and expected evidence limits. |
+| Solution runner | `validation_version(withOntology)/evaluation/solution.md` | Procedure for running the ontology-governed workflow. |
+| Results matrix | `validation_version(withOntology)/evaluation/results.md` | Baseline vs final values for each metric and case. |
+| Improvement changelog | `validation_version(withOntology)/evaluation/improvement_changelog.md` | Iteration evidence and decisions. |
+| Agent trajectories | `validation_version(withOntology)/trajectories/` | Representative traces for Developer, Documentation, QA, ONTO_CONTROLLER, and Human Reviewer. |
+| Reproduction guide | `validation_version(withOntology)/REPRODUCTION.md` | Clean-environment setup, commands, versions, runtime, cost, and expected outputs. |
+| Submission README extension | `validation_version(withOntology)/README_SUBMISSION.md` | Judge-facing summary, bottleneck, value, failure mode, and hot take. |
+
+Phase 0 - Baseline Boundary
+---------------------------
+
+Goal:
+Make clear what existed before the competition and what is added by this ontology-governed submission.
+
+Tasks:
+
+| ID | Task | Output | Gate |
+| --- | --- | --- | --- |
+| `IMP-0001` | Inventory existing documents and mark pre-existing vs new submission artifacts. | Pre-existing/new section in `README_SUBMISSION.md`. | No ambiguous ownership remains. |
+| `IMP-0002` | Define synthetic/public evaluation data only. | Data note in `REPRODUCTION.md`. | No credentials or private data required. |
+| `IMP-0003` | Define baseline process as direct prompt/manual documentation loop. | `evaluation/baseline.md`. | Baseline can run on same 10 cases. |
+
+Phase 1 - Ontology Core
+-----------------------
+
+Goal:
+Create the static vocabulary and append-only event contract.
+
+Tasks:
+
+| ID | Task | Output | Depends on |
+| --- | --- | --- | --- |
+| `IMP-0101` | Create JSON-LD context for `Document`, `Feature`, `Partial`, `Task`, `Execution`, `Agent`, `Landscape`, `StateTransition`, `ValidationResult`, `InferredMacroState`, `Lastring`. | `ontology/context.jsonld` | Phase 0 |
+| `IMP-0102` | Define lifecycle states: `Draft`, `Review`, `Approved`, `Released`, `Rejected`, `InferredOutdated`, `BlockedByPartial`, `WaitingHumanFeedback`, `DoneAutonomous`, `DoneHumanFeedback`. | Context/state vocabulary | `IMP-0101` |
+| `IMP-0103` | Define immutable anchor rules: anchors have IDs and composition links but no mutable lifecycle status. | Anchor schema notes and SHACL rule | `IMP-0101` |
+| `IMP-0104` | Define StateTransition shape: target, fromState, toState, timestamp, actor, tool, branch, commit, landscape, previousActivity, axiomRef, validationRef. | Event contract | `IMP-0101` |
+
+Acceptance:
+- Static anchors can be represented without lifecycle status.
+- State can only appear through process events or inferred macro-state nodes.
+
+Phase 2 - SHACL Governance
+--------------------------
+
+Goal:
+Implement deterministic shackling for the six axioms.
+
+Tasks:
+
+| ID | Task | Output | Axiom |
+| --- | --- | --- | --- |
+| `IMP-0201` | Add taxonomy validation: legal `toState`, min/max counts, no direct `Draft` -> `Released`. | `ontology/shapes.ttl` | Taxonomy guard |
+| `IMP-0202` | Add immutable anchor validation. | `ontology/shapes.ttl` | `AXIOM-003` |
+| `IMP-0203` | Add hierarchy shield for non-inverse propagation. | `ontology/shapes.ttl` | `AXIOM-002` |
+| `IMP-0204` | Add domain isolation shape for Developer, Documentation, QA, ONTO_CONTROLLER, and Human Reviewer scopes. | `ontology/shapes.ttl` | `AXIOM-006` |
+| `IMP-0205` | Add append-only previousActivity/concurrency checks. | `ontology/shapes.ttl` | `AXIOM-001`, `AXIOM-004` |
+| `IMP-0206` | Add lastring gate requiring all required axiom evidence and no unresolved hard failures. | `ontology/shapes.ttl` | Last-ring |
+
+Acceptance:
+- Invalid taxonomy jumps are rejected.
+- Cross-domain mutation attempts are rejected.
+- Parent mutation from lower-level events is rejected.
+- Lastring cannot close while evidence is incomplete.
+
+Phase 3 - Macro Inference
+-------------------------
+
+Goal:
+Derive macro-state from event history without direct mutation.
+
+Tasks:
+
+| ID | Task | Output | Evidence |
+| --- | --- | --- | --- |
+| `IMP-0301` | Write current-state query by latest timestamp. | `ontology/inference.rq` | Proves time-travel/current-state derivation. |
+| `IMP-0302` | Write `Rejected Partial` -> `BlockedByPartial Feature` projection. | `ontology/inference.rq` | Proves macro-resolution. |
+| `IMP-0303` | Write `Released Code` -> `InferredOutdated Document` projection. | `ontology/inference.rq` | Proves documentation sync trigger. |
+| `IMP-0304` | Write synchronized release query for code and docs both released. | `ontology/inference.rq` | Proves final readiness. |
+
+Acceptance:
+- Macro-state is derived from event history.
+- No micro-agent event directly writes parent/macro state.
+
+Phase 4 - POC Graph Payload
+---------------------------
+
+Goal:
+Create the demonstration graph payload that judges can inspect.
+
+Tasks:
+
+| ID | Task | Output | Includes |
+| --- | --- | --- | --- |
+| `IMP-0401` | Create immutable anchor nodes. | `ontology/graph-payload.jsonld` | Document, Feature, Partial, Task, Execution, Landscape. |
+| `IMP-0402` | Add valid process events. | `ontology/graph-payload.jsonld` | Draft -> Review, Review -> Approved, Approved -> Released. |
+| `IMP-0403` | Add invalid/rejected process examples. | `ontology/graph-payload.jsonld` or fixtures | Draft -> Released, scope leak, domain breach. |
+| `IMP-0404` | Add observability event rows. | `ontology/graph-payload.jsonld` | Required View 1 fields. |
+| `IMP-0405` | Add struggling/validation rows. | `ontology/graph-payload.jsonld` | Required View 2 fields. |
+| `IMP-0406` | Add lastring attempt and final human-approved closure event. | `ontology/graph-payload.jsonld` | `WAITING_HF` -> `DONE_HF`. |
+
+Acceptance:
+- The payload demonstrates all 10 evaluation cases or has fixtures for cases that must remain invalid.
+- The payload includes evidence for all six axioms and lastring.
+
+Phase 5 - Evaluation Harness
+----------------------------
+
+Goal:
+Make baseline and final solution measurable.
+
+Tasks:
+
+| ID | Task | Output | Metric |
+| --- | --- | --- | --- |
+| `IMP-0501` | Write `evaluation/cases.json` with the 10 shared cases. | Case dataset | All metrics |
+| `IMP-0502` | Write baseline execution instructions. | `evaluation/baseline.md` | Validated delivery time, doc bounce count |
+| `IMP-0503` | Write final solution execution instructions. | `evaluation/solution.md` | All final metrics |
+| `IMP-0504` | Define results table schema. | `evaluation/results.md` | Baseline vs final comparison |
+| `IMP-0505` | Add evidence links from each case to graph rows, validation rows, and changelog entries. | `evaluation/results.md` | Evidence-backed claims |
+
+Acceptance:
+- Baseline and final solution use the same cases.
+- Every improvement claim has evidence.
+
+Phase 6 - Agent Trajectories
+----------------------------
+
+Goal:
+Produce representative trajectories for every agent used.
+
+Tasks:
+
+| ID | Task | Output | Agent |
+| --- | --- | --- | --- |
+| `IMP-0601` | Create Developer Agent trajectory. | `trajectories/dev_agent_a.md` | `DEV_AGENT_A` |
+| `IMP-0602` | Create Documentation Agent trajectory. | `trajectories/doc_agent_a.md` | `DOC_AGENT_A` |
+| `IMP-0603` | Create QA Agent trajectory. | `trajectories/qa_agent_a.md` | `QA_AGENT_A` |
+| `IMP-0604` | Create ONTO_CONTROLLER trajectory. | `trajectories/onto_controller.md` | `ONTO_CONTROLLER` |
+| `IMP-0605` | Create Human Reviewer trajectory. | `trajectories/human_reviewer.md` | `Human Reviewer` |
+
+Each trajectory must show:
+- instruction or role,
+- starting event,
+- tool/validation response,
+- retry or correction,
+- final state,
+- human checkpoint when applicable.
+
+Phase 7 - Final Documentation
+-----------------------------
+
+Goal:
+Package the project for judging.
+
+Tasks:
+
+| ID | Task | Output | Deliverable |
+| --- | --- | --- | --- |
+| `IMP-0701` | Write judge-facing README. | `README_SUBMISSION.md` | Complete code and changelog |
+| `IMP-0702` | Write reproduction guide. | `REPRODUCTION.md` | Reproduction guide |
+| `IMP-0703` | Write improvement changelog. | `evaluation/improvement_changelog.md` | Complete code and changelog |
+| `IMP-0704` | Write main failure mode and hot take. | README/changelog section | Hot take / insights |
+| `IMP-0705` | Draft 5-minute video script. | `evaluation/video_script.md` | Solution video |
+
+Acceptance:
+- The four final deliverables can be assembled directly from repository files.
+
+Phase 8 - Verification and Lastring Closure
+-------------------------------------------
+
+Goal:
+Verify the implementation and close the lifecycle only when evidence is complete.
+
+Tasks:
+
+| ID | Task | Output | Gate |
+| --- | --- | --- | --- |
+| `IMP-0801` | Run or simulate SHACL validation for every fixture. | Validation report | No unexpected violations. |
+| `IMP-0802` | Run baseline and final solution over all 10 cases. | Results matrix | Each case has baseline and final values. |
+| `IMP-0803` | Check ground rules. | Eligibility checklist | No private data, credentials, or uncontrolled consequential actions. |
+| `IMP-0804` | Check final deliverables. | Submission checklist | Four deliverables complete. |
+| `IMP-0805` | Attempt `REGISTER_LASTRING`. | Lastring evidence row | Remains blocked until all evidence is complete. |
+| `IMP-0806` | Human approves final closure. | `DONE_HF` lastring row | Final lifecycle closed. |
+
+Implementation Order
+--------------------
+
+1. Phase 0 - Baseline Boundary
+2. Phase 1 - Ontology Core
+3. Phase 2 - SHACL Governance
+4. Phase 3 - Macro Inference
+5. Phase 4 - POC Graph Payload
+6. Phase 5 - Evaluation Harness
+7. Phase 6 - Agent Trajectories
+8. Phase 7 - Final Documentation
+9. Phase 8 - Verification and Lastring Closure
+
+Ready Todo Intersection
+-----------------------
+
+The current ready todos indicate the first implementation slice should focus on:
+
+1. `state-taxonomy`
+2. `append-only-event-store`
+3. `axiom-static-identity-rule`
+4. `axiom-observability-filters`
+
+Recommended first coding/documentation batch:
+
+1. Create `ontology/context.jsonld`.
+2. Define state taxonomy and immutable anchor vocabulary.
+3. Define `StateTransition` and validation row fields.
+4. Add observability filters for `AxiomRef`, `TargetNode`, `ParentAnchor`, `ValidationRule`, and `RecoveryAction`.
+
+Risk Controls
+-------------
+
+- Graph payload authorship belongs only to ONTO_CONTROLLER.
+- Risky actions must request confirmation with `ask`; they must not block the agent flow with a hard deny.
+- Human reviewer approval is mandatory for final merge and lastring closure.
+- All data used in evaluation must be synthetic, public, or approved anonymous data.
+- Credentials and private data must not appear in graph payloads, trajectories, screenshots, or reproduction files.
+
+Definition of Done
+------------------
+
+The implementation is complete when:
+
+- The ontology files exist and represent all six axioms.
+- The SHACL shapes reject invalid transitions, scope leaks, domain breaches, and incomplete lastring closure.
+- The inference queries derive macro-state from event history.
+- The graph payload demonstrates the required views and cases.
+- The evaluation harness compares baseline and final solution across all 10 cases.
+- The improvement changelog explains which changes improved the result and which experiment was removed.
+- The reproduction guide can be followed from a clean environment.
+- The final deliverables are assembled and evidence-backed.
+- `REGISTER_LASTRING` reaches `DONE_HF` only after human approval.
+
+ContextChanges
+--------------
+
+L1:
+- Added this implementation plan as the bridge from design evaluation to build execution.
+- Defined concrete repository artifacts and implementation phases.
+
+L2:
+- Mapped evaluation metrics and judging deliverables to build phases, outputs, and acceptance gates.
+- Identified the ready todo intersection for the first implementation slice.
+
+L3:
+- This is still planning/documentation work; runtime implementation has not started.
+- Remaining action is to create the ontology, SHACL, inference, graph payload, evaluation, trajectory, and final submission files described above.

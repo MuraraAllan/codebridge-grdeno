@@ -1,0 +1,20 @@
+inal deliverables
+Submit your deliverable with these four items.
+01
+Complete solution code and improvement changelog
+Share the full project and everything required to run it. Include the code as well as the instructions that
+shape each agent. Use the README to introduce the intended user and explain their current bottleneck. Then describe why solving it is valuable. Add a clearly labeled Improvement Changelog using the
+structure above. Give every meaningful iteration its own entry and connect it to the evidence that
+guided your next decision. Close with the main failure mode and your hot take.
+02 Reproduction guide
+Write for someone starting from a clean environment. Walk them through setup and provide the exact
+commands for the solution, baseline and evaluation. Explain which data is required and what output to
+expect. Share the relevant versions along with the approximate runtime and cost.
+03 Solution video
+Submit a video of up to [5 minutes]. Begin with the problem and simple baseline, then walk through
+one realistic execution from start to finish. Show the final comparison and briefly explain the
+changelog. Highlight the change that contributed most as well as one experiment you removed.
+04 Agent trajectories
+Include representative trajectories for every agent you used. Make each trajectory easy to follow from
+the agent instructions to the final result. Show what the agent did and how its tools responded.
+Capture the feedback that shaped its next step as well as any retries or human checkpoints.

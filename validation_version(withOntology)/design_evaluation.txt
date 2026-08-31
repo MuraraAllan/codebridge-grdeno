@@ -1,0 +1,367 @@
+Design Evaluation Plan
+======================
+
+FeedForward(>>>> Build the hackathon design evaluation from the ontology representation groundwork, the judging criteria, the final deliverables, and the ground rules.)
+
+ContextTaskInterpreting
+-----------------------
+
+The current task is to turn the ontology representation plan into an evaluation design that can prove the submission is useful, reproducible, safe, and measurably better than a baseline.
+
+userMessageTaskList:
+1. Process how_judging_works.md before designing the evaluation.
+2. Intersect judging details with concrete_judgin_plan.txt, final deliverables.txt, ground_rules.txt, and docs/ontology-representation-task-list.md.
+3. Use extendedContextIntersection to define the difficult evaluation dimensions:
+   - Time spent iterating through observables, detecting flaws and failures.
+   - Time spent bouncing documents back and forth, documenting changes, and measuring impacts.
+   - Influence of small breaking changes, both visual and code-related, including during-change detection.
+   - Emergent intersections from the previous metrics.
+4. Build the design_evaluation.txt plan as the starting point for the whole hackathon submission plan.
+
+userMessageIntention:
+Create an evaluation plan that demonstrates why the ontology-driven agent workflow is better than a simple baseline and how that improvement will be evidenced for judges.
+
+userMessageContextualDescription:
+The solution is not only a graph payload. It is an evaluated agent workflow where micro-autonomous actions are observable, validation failures are explicit, documentation synchronization is measured, and final closure is gated by the lastring lifecycle marker.
+
+preIntersectionJudgingDetails
+-----------------------------
+
+From how_judging_works.md, the project is judged on 100 points:
+
+1. Problem & User Value - 15 points
+   Strong work solves a meaningful bottleneck for a clearly defined user.
+
+2. Agent Solution & Engineering - 30 points
+   Strong work uses agents purposefully. The number of agents matters less than whether context, tools, memory, verification, skills, and orchestration improve reliability.
+
+3. End to End Quality - 20 points
+   Strong work completes a realistic self-contained execution and produces a final result a user would accept as human-grade.
+
+4. Measured Improvement - 15 points
+   Strong work compares a fair baseline and final solution on the same task and cases, then connects improvements to changelog evidence.
+
+5. Reproducibility - 15 points
+   Strong work lets another person run the solution and baseline from a clean environment.
+
+6. Hot Take / Insights - 5 points
+   Strong work turns an observed failure mode into a practical lesson for building better agents.
+
+Ground Rule Intersection
+------------------------
+
+The evaluation must satisfy the baseline eligibility rules:
+
+- Separate what existed before the competition from what is added for this submission.
+- Use only tools and components according to their licenses and service terms.
+- Keep consequential actions controlled by sandbox or simulation.
+- Add human approval before consequential actions.
+- Use a qualified human reviewer where outputs could significantly affect someone.
+- Use public, synthetic, or approved anonymous data.
+- Keep credentials and private information out of the submission.
+- Connect every claim to submitted evidence.
+- Give judges enough access to reproduce the main result.
+
+Evaluation Thesis
+-----------------
+
+The project succeeds if the ontology-driven workflow reduces the time and uncertainty required to move from agent activity to trusted submission evidence.
+
+The baseline can generate code or documents, but it does not reliably preserve:
+
+- Why a change happened.
+- Which agent or tool caused it.
+- Which boundary it was allowed to touch.
+- Which validation rule accepted or rejected it.
+- Which documentation changes were required by code changes.
+- Which final lifecycle ring closed the chain.
+
+The final solution improves that by using:
+
+- Append-only StateTransition events.
+- Before-processing observability.
+- Struggling/validation observability.
+- SHACL shielding.
+- Macro inference.
+- Human feedback gates.
+- Lastring registration.
+
+Primary Evaluation Metric
+-------------------------
+
+Primary metric: validated delivery time per change.
+
+Definition:
+The elapsed human + agent time required to take a realistic change from initial request to a judge-ready artifact where the event chain, validation state, documentation impact, and final approval are all visible.
+
+Why this is the primary metric:
+The user's real bottleneck is not only producing an answer. The hard part is iterating through observables, detecting flaws, bouncing documentation updates, measuring impact, and proving that small breaking changes were caught. Time-to-validated-delivery captures that full loop.
+
+Measurement:
+
+| Measurement field | Baseline | Agent solution |
+| --- | --- | --- |
+| Start time | First prompt or manual task start. | First observable event row. |
+| End time | Human manually decides result is ready. | `REGISTER_LASTRING` reaches `DONE_HF` or accepted final state. |
+| Included work | Prompting, manual checking, document edits, manual impact notes. | Agent steps, ONTO_CONTROLLER events, validation rows, inferred docs, human approval. |
+| Excluded work | Environment setup unless the case specifically measures reproduction. | Environment setup unless the case specifically measures reproduction. |
+
+Supporting Metrics
+------------------
+
+metricEval 1 - Time investment iterating through observables, detecting flaws and fails
+
+Question:
+How long does it take to identify what happened, where it failed, and what should happen next?
+
+Evidence:
+- View 1 event rows: `Occurency`, `LANDSCAPE`, `Details`, `Type`, `Submitted by`, `DateOccurrency`, `Assignee`, `Status`.
+- View 2 struggling rows: `DETAILED_REASONING`, `INTEGER_DURATION`, `TOKENS`, `Status`, `ERRORED`.
+- SHACL report or simulated violation message.
+
+Metric:
+Time to first actionable failure diagnosis.
+
+Target improvement:
+The agent solution should reduce diagnosis time by making the failure row, target node, validation rule, and recovery action visible without manual reconstruction.
+
+metricEval 2 - Time investment over bouncing documents back and forth, documenting changes and measuring impacts
+
+Question:
+How much effort is spent synchronizing implementation changes with documentation and impact notes?
+
+Evidence:
+- Documentation-domain event rows.
+- `InferredOutdated` macro-state events.
+- Changelog entries linked to validation evidence.
+- Difference between manually edited docs and ONTO_CONTROLLER-triggered documentation tasks.
+
+Metric:
+Documentation bounce count and documentation sync time.
+
+Target improvement:
+The agent solution should reduce repeated back-and-forth by explicitly creating documentation tasks from inferred macro-state rather than relying on memory or manual review.
+
+metricEval 3 - Explicit influence of small breaking changes, both visual and code-related, during changes
+
+Question:
+Can the workflow detect and explain the impact of small breaking changes before they become invisible regressions?
+
+Evidence:
+- Before-processing observability row for the change.
+- Struggling/validation row for the break or warning.
+- Axiom references showing whether the break violated taxonomy, scope, identity, append-only provenance, macro inference, or domain isolation.
+- Human feedback checkpoint if the break is a warning rather than a hard failure.
+
+Metric:
+Small breaking change containment score.
+
+Scoring:
+- 0: Change is not detected.
+- 1: Change is detected but not explained.
+- 2: Change is detected and explained, but not tied to an affected target.
+- 3: Change is detected, explained, tied to a target, and assigned a recovery action.
+- 4: Change is detected during the change, tied to an axiom, assigned a recovery action, and visible in both required views.
+
+Target improvement:
+The final solution should score 3 or 4 on every small-break case.
+
+metricEval 4 - Emergent intersections from previous evaluations
+
+Question:
+Which compound failures only become visible when observability, documentation bounce, and small-break impact are evaluated together?
+
+Examples:
+- A visual warning is harmless alone, but it causes repeated documentation churn because the screenshot evidence no longer matches the README.
+- A code-only change is valid alone, but macro inference marks docs as outdated, creating a documentation task that must remain isolated from code mutation.
+- A SHACL warning is accepted by a human, but lastring registration must record that the final chain closed with human-accepted warning state rather than pure conformance.
+
+Metric:
+Intersection resolution rate.
+
+Definition:
+Number of compound cases where the final solution identifies the intersection, assigns the correct owner, preserves evidence, and reaches a clear terminal state divided by total compound cases.
+
+Target improvement:
+At least 80 percent of compound cases should reach a traceable terminal state without undocumented manual reconstruction.
+
+Baseline Design
+---------------
+
+Baseline name:
+Direct agent + manual documentation loop.
+
+Baseline capabilities:
+- One general prompt or one general agent.
+- Basic file editing.
+- Manual notes for changes.
+- Manual inspection of screenshots/logs.
+- No formal ontology.
+- No append-only StateTransition ledger.
+- No SHACL shield.
+- No macro inference.
+- No lastring gate.
+
+Baseline allowed resources:
+The baseline receives the same task description and the same evaluation cases as the final solution, but it does not receive the ontology-specific event ledger, validation views, or controller-mediated graph lifecycle.
+
+Expected baseline weakness:
+The baseline may produce plausible output quickly, but it should struggle to prove what changed, why it changed, which agent owned it, whether a boundary was crossed, and whether documentation is synchronized.
+
+Agent Solution Design
+---------------------
+
+Solution name:
+Ontology-governed agent workflow with ONTO_CONTROLLER.
+
+Solution capabilities:
+- Micro-agents perform normal work.
+- Tool and workflow movements are recorded as telemetry.
+- ONTO_CONTROLLER translates telemetry into graph events.
+- Static anchors remain immutable.
+- State changes are append-only.
+- SHACL validates taxonomy, scope, and domain boundaries.
+- Macro inference derives upper-state and documentation impact.
+- Required observability and struggling views expose the flow.
+- Lastring registration closes only when required evidence is present.
+
+Agent roles:
+
+| Role | Responsibility | Evidence |
+| --- | --- | --- |
+| `DEV_AGENT_A` | Code and component changes inside code scope. | Tool/file events, branch, target node, validation rows. |
+| `DOC_AGENT_A` | Documentation updates inside documentation scope. | Documentation events, inferred outdated response, changelog notes. |
+| `QA_AGENT_A` | Validation, warnings, regression evidence, failed cases. | Struggling/validation rows and fixtures. |
+| `ONTO_CONTROLLER` | Isolated graph authorship, SHACL validation, inference, lastring preparation. | Graph payload events, SHACL messages, inferred states. |
+| `Human Reviewer` | Approval for consequential actions and final merge/lastring. | `WAITING_HF` to `DONE_HF` transition. |
+
+Evaluation Cases
+----------------
+
+Use the same cases for baseline and final solution. Ten cases are included to match the judging recommendation.
+
+| Case | Description | Difficulty focus | Expected final-solution evidence |
+| --- | --- | --- | --- |
+| `CASE-01` | Valid Partial moves from `Draft` to `Review`. | Basic lifecycle. | StateTransition event, no parent mutation. |
+| `CASE-02` | Invalid Partial attempts direct `Draft` to `Released`. | Taxonomy violation. | SHACL rejection and recovery action. |
+| `CASE-03` | Partial reaches `Rejected`; Feature becomes `BlockedByPartial` by inference. | Macro inference. | Inferred macro-state, no Feature mutation. |
+| `CASE-04` | Feature reaches `Released`; documentation becomes `InferredOutdated`. | Documentation synchronization. | ONTO_CONTROLLER event and DOC_AGENT task. |
+| `CASE-05` | Developer agent tries to update documentation directly. | Horizontal domain breach. | `DomainIsolationShape` violation. |
+| `CASE-06` | Document agent tries to alter code-owned Partial. | Reverse horizontal breach. | SHACL rejection before graph commit. |
+| `CASE-07` | Small visual label/status change affects screenshot evidence. | Visual breaking change. | View 2 warning and changelog impact note. |
+| `CASE-08` | Small code change creates type/build warning. | Code breaking change. | `RUN_COMMAND` validation row with recovery action. |
+| `CASE-09` | Two agents race from the same previous activity. | Concurrency/previous-event conflict. | Collision detected; second event must rebase or halt. |
+| `CASE-10` | Final merge attempts lastring registration with unresolved warning. | Closure gate. | `REGISTER_LASTRING` remains `WAITING_HF` until human acceptance. |
+
+Evaluation Data Schema
+----------------------
+
+Before-processing observability row:
+
+| Field | Required | Purpose |
+| --- | --- | --- |
+| `occurrence` | yes | Append-only event name. |
+| `ontologyMode` | yes | `BEING` or `BECOMING`. |
+| `details` | yes | Human-readable action summary. |
+| `eventType` | yes | `CHAIN_CALL`, `SUBSEQUENT_CHAIN_CALL`, `EVENT_TRIGGER`, `LANDSCAPE_MERGE`. |
+| `landscapeRef` | yes | `MAIN`, temporary branch, or isolated controller branch. |
+| `securityReview` | yes | Unknown, pending, checked, or blocked. |
+| `submittedBy` | yes | Agent or human actor. |
+| `dateOccurrence` | yes | Timestamp. |
+| `assignee` | yes when waiting | Human or agent responsible for next gate. |
+| `status` | yes | Current event status. |
+
+Struggling/validation row:
+
+| Field | Required | Purpose |
+| --- | --- | --- |
+| `occurrence` | yes | Decision, edit, read, command, or validation event. |
+| `detailedReasoning` | yes | Bounded explanation of the failure, warning, or decision. |
+| `integerDuration` | yes | Runtime or bucketed duration. |
+| `tokens` | yes when agent-generated | Token/cost trace. |
+| `status` | yes | `DONE_AUTON`, `ONLY_WARNING_TS`, `ERRORED`, `WAITING_HF`, etc. |
+| `errored` | yes | Boolean failure flag. |
+| `axiomRef` | yes for ontology cases | Which axiom the row proves or violates. |
+| `validationRule` | yes for validation cases | SHACL/build/lint/inference rule. |
+| `targetNode` | yes for graph cases | Affected Document, Feature, Partial, Task, or StateTransition. |
+| `recoveryAction` | yes for failed/warning cases | Next correction step. |
+
+Scoring Rubric Mapping
+----------------------
+
+| Judging criterion | Evaluation proof |
+| --- | --- |
+| Problem & User Value | The measured bottleneck is time lost reconstructing agent actions, validation failures, documentation impact, and final readiness. |
+| Agent Solution & Engineering | ONTO_CONTROLLER, SHACL, macro inference, required views, and human gates are purposeful mechanisms tied to observed failure modes. |
+| End to End Quality | The final run must produce graph evidence, validation evidence, documentation impact, and a lastring closure that a reviewer can sign off. |
+| Measured Improvement | Baseline and final solution run the same 10 cases; deltas are reported for delivery time, diagnosis time, doc bounce count, containment score, and intersection resolution. |
+| Reproducibility | The reproduction guide must include exact commands, versions, data, expected outputs, runtime, and cost. |
+| Hot Take / Insights | Candidate hot take: LLM agents should not govern their own architectural boundaries; deterministic semantic shields should. |
+
+Improvement Changelog Plan
+--------------------------
+
+| Stage | What to try | Evidence | Decision / learning |
+| --- | --- | --- | --- |
+| Baseline | Direct agent/manual documentation loop. | Time, doc bounces, undetected scope risks. | Establish starting point. |
+| Iteration 1 | Add append-only observability. | Faster event reconstruction. | Keep if event history reduces diagnosis time. |
+| Iteration 2 | Add struggling/validation view. | Faster failure diagnosis and recovery routing. | Keep if failures are explainable before manual search. |
+| Iteration 3 | Add SHACL shielding. | Invalid transitions and scope leaks blocked. | Keep if it prevents agent overreach. |
+| Iteration 4 | Add macro inference. | Documentation impact is generated from code events. | Keep if it reduces doc bounce count. |
+| Iteration 5 | Add lastring registration. | Final state cannot close with unresolved evidence. | Keep if it improves submission confidence. |
+| Removed experiment | Allow agents to emit graph payloads directly. | Risk of hallucinated or malformed graph writes. | Remove; ONTO_CONTROLLER must own graph authorship. |
+| Final | Combine observability, validation, inference, and lastring. | Complete 10-case comparison. | Identify main contribution. |
+
+Submission Plan
+---------------
+
+1. Complete solution code and improvement changelog
+   - Include the ontology representation, graph payload generator, validation rules, and agent instructions.
+   - README must introduce the intended user, the bottleneck, the value, the improvement changelog, main failure mode, and hot take.
+
+2. Reproduction guide
+   - Provide clean environment setup.
+   - Include exact commands for baseline, final solution, and evaluation.
+   - Include data requirements, expected outputs, tool versions, runtime, and approximate cost.
+
+3. Solution video
+   - Maximum 5 minutes.
+   - Start with problem and baseline.
+   - Show one realistic execution end to end.
+   - Show final comparison and changelog.
+   - Highlight the most impactful change and one removed experiment.
+
+4. Agent trajectories
+   - Include trajectories for Developer, Documentation, QA, ONTO_CONTROLLER, and Human Reviewer.
+   - Show prompts/instructions, tool responses, validation outcomes, retries, and human checkpoints.
+
+Acceptance Gates
+----------------
+
+The design evaluation is ready when:
+
+- All 10 cases have a baseline result and final-solution result.
+- Each claimed improvement has evidence.
+- Every ground rule is addressed.
+- Every consequential action is sandboxed or human-gated.
+- Required observability and validation views are populated.
+- A lastring registration attempt is blocked until all required evidence is present.
+- The final deliverables can be produced from this evaluation without undocumented assumptions.
+
+ContextChanges
+--------------
+
+L1:
+- Replaced the starter metric stub with a full design evaluation plan.
+- Added the requested four metric evaluations and mapped them to concrete evidence.
+- Added the 10-case baseline/final comparison plan.
+
+L2:
+- Connected judging criteria, ground rules, final deliverables, concrete plan, and ontology task-list requirements into one evaluation structure.
+- Established validated delivery time per change as the primary metric.
+- Defined required evidence rows for observability, struggling/validation, changelog, and lastring closure.
+
+L3:
+- This is documentation/planning work; no runtime behavior changed.
+- Remaining work is to implement the solution artifacts, run the 10 evaluation cases, and fill in measured baseline/final values.
+- The final submission plan should be generated from this evaluation after the evidence exists.

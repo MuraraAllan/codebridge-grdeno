@@ -1,0 +1,55 @@
+How agents can help
+Use whichever agent capabilities help solve the
+problem well. One solution may improve when the
+agent receives better context or better tools.
+Another may use memory to carry important information forward. Verification can catch errors before
+they reach the user, while specialized skills can
+deepen the agent’s ability in a particular task. Some
+solutions may benefit from orchestration across several agents.
+Choose the approach that fits your problem. Judges
+focus on whether each design choice improves the
+solution and helps the agent reach the goal reliably.
+Purposeful choices matter more than the number
+of components.
+Show how the solution improved
+Create a simple baseline that represents a reasonable basic way to handle the task
+before using your solution. For example:
+One direct prompt with basic
+instructions.
+One general purpose agent with
+basic tools.
+A simple script or template. The manual process people use
+today.
+Keep the comparison fair by giving the baseline and
+final solution the same task and evaluation cases.
+Explain any meaningful difference in the resources
+available to each one.
+Use the final baseline comparison to show the size of
+the overall improvement. Use the changelog to explain where that improvement came from. Together,
+they tell the complete story of your solution.
+A G E N T I C W O R K F L O W S H A C K A T H O N 0 3
+Tellthe story with an improvement changelog
+Create a short changelog that tells the story of how
+your solution evolved. Start with the simple
+baseline and follow the journey through to the final
+result. This makes it clear how each meaningful
+change contributed.
+Add one entry for every important experiment.
+Explain what you tried and why you tried it. Then
+show the result using the same evaluation method
+whenever possible and share what you decided to do
+next. Include experiments you later removed and explain what they taught you about the problem.
+
+T H E P R O G R E S S I O N B E L O W I S A N E X A M P L E . R E P L A C E I T W I T H T H E C H A N G E S Y O U R P R O J E C T A C T U A L L Y M A D E .
+STAGE WHAT YOU TRIED AND WHY EVIDENCE DECISION / LEARNING
+Baseline Started with [basic approach] [baseline
+result]
+Established the starting
+point
+Iteration 1 Added a skill to address [issue] [new result] [kept, revised or removed]
+Iteration 2 Added verification after observing
+[failure]
+[new result] [kept, revised or removed]
+Iteration 3 Changed orchestration to improve [goal] [new result] [kept, revised or removed]
+Final Combined the changes that worked [final result] Identified the main
+contribution

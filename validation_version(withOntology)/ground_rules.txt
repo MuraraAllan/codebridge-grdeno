@@ -1,0 +1,14 @@
+Ground rules
+These rules are baseline requirements for every eligible project.
+01 You are welcome to build with tools and components you already know.
+02 Make it clear what existed before the competition and what you added.
+03 Use every tool and component according to its license and service terms.
+04 Keep consequential actions controlled through a sandbox or simulation. Add human approval before
+the action happens.
+05 Make a qualified human reviewer part of any solution that could significantly affect someone.
+06 Choose a legal and ethical use case that treats people and their data responsibly.
+07 Use information you are allowed to share. Public or synthetic data are usually the easiest options.
+Approved anonymous data also works.
+08 Keep credentials and private information outside the submission.
+09 Connect every claim about your results to the evidence you submit.
+10 Give judges enough access to run the project and reproduce the main result
