@@ -174,3 +174,71 @@ Next Todo Shim
 | `CSI-016` | Add validator route filters for case ID and axiom ID. | app/routes/validator.tsx | Done |
 | `CSI-017` | Create initial results matrix scaffold. | evaluation/results.md | Done |
 | `CSI-018` | Add trajectory placeholders for all five agents. | trajectories/*.md | Done |
+
+Phase 5/7 Continuation Result
+-----------------------------
+
+Implemented in `implementation_code`:
+
+- `evaluation/solution.md`
+  - ontology-governed solution runner using the same 10 cases as baseline
+  - route filter and graph payload validation procedure
+- `evaluation/results.md`
+  - evidence matrix retained
+  - live-run measurement table added for baseline/final timing and quality fields
+- `evaluation/improvement_changelog.md`
+  - baseline, iterations, removed experiment, main failure mode, and hot take
+- `evaluation/video_script.md`
+  - five-minute solution video outline
+- `REPRODUCTION.md`
+  - clean setup, exact commands, expected output, data note, runtime/cost note
+- `README_SUBMISSION.md`
+  - judge-facing user, bottleneck, solution, added artifacts, failure mode, hot take
+- `scripts/validate-evaluation.mjs`
+  - validates 10-case evidence references, final docs, results coverage, and trajectory completeness
+- `package.json`
+  - `validate:evaluation` command
+- `evaluation/baseline.md`
+  - baseline procedure clarified against `evaluation/cases.json`
+
+Validation:
+
+```text
+npm run validate:evaluation
+PASS all 10 cases reference existing graph and validation evidence.
+PASS results matrix covers every shared case.
+PASS final documentation files exist.
+PASS five required agent trajectories are complete enough for review.
+
+npm run validate:ontology
+PASS graph-payload.jsonld contains all required nodes.
+PASS evaluation/cases.json maps all 10 cases to graph validation evidence.
+PASS 8/8 fixture cases.
+
+npm run typecheck
+PASS
+
+npm run build
+PASS
+```
+
+Current phase:
+- Phase 5 - Evaluation Harness: complete for the first implementation pass, with live numeric measurements still marked `TBD` for a timed run.
+- Phase 6 - Agent Trajectories: complete enough for first-pass review.
+- Phase 7 - Final Documentation: complete for first-pass packaging.
+
+Next phase:
+- Phase 8 verification and lastring closure hardening.
+- Fill live baseline/final numeric measurements in `evaluation/results.md` after timed runs.
+- Keep lastring at `WAITING_HF` until human reviewer approval.
+
+Next Todo Shim
+--------------
+
+| ID | Task | Output | Status |
+| --- | --- | --- | --- |
+| `CSI-019` | Add solution runner and evaluation validation script. | evaluation/solution.md, scripts/validate-evaluation.mjs | Done |
+| `CSI-020` | Add final documentation package. | REPRODUCTION.md, README_SUBMISSION.md, improvement_changelog.md, video_script.md | Done |
+| `CSI-021` | Validate Phase 5/7 evidence package. | npm run validate:evaluation, validate:ontology, typecheck, build | Done |
+| `CSI-022` | Fill live timed baseline/final values. | evaluation/results.md | Next |
+| `CSI-023` | Implement Phase 8 final verification checklist and lastring approval guard. | evaluation/final_checklist.md or equivalent | Next |

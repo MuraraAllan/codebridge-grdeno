@@ -193,6 +193,13 @@ Acceptance:
 - Baseline and final solution use the same cases.
 - Every improvement claim has evidence.
 
+Current evidence:
+- `implementation_code/evaluation/cases.json` defines the shared 10-case dataset.
+- `implementation_code/evaluation/baseline.md` documents the direct-agent/manual documentation baseline procedure.
+- `implementation_code/evaluation/solution.md` documents the ontology-governed solution procedure.
+- `implementation_code/evaluation/results.md` maps every case to graph/validation evidence and provides live-run measurement fields.
+- `implementation_code/scripts/validate-evaluation.mjs` checks case evidence references, result coverage, documentation files, and trajectory completeness.
+
 Phase 6 - Agent Trajectories
 ----------------------------
 
@@ -235,6 +242,12 @@ Tasks:
 
 Acceptance:
 - The four final deliverables can be assembled directly from repository files.
+
+Current evidence:
+- `implementation_code/README_SUBMISSION.md` introduces the user, bottleneck, solution, added artifacts, failure mode, and hot take.
+- `implementation_code/REPRODUCTION.md` provides clean setup commands, expected outputs, runtime/cost notes, data rules, baseline run, and solution run.
+- `implementation_code/evaluation/improvement_changelog.md` records the meaningful iterations and removed experiment.
+- `implementation_code/evaluation/video_script.md` drafts the five-minute solution video.
 
 Phase 8 - Verification and Lastring Closure
 -------------------------------------------

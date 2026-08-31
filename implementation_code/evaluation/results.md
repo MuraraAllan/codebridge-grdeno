@@ -1,8 +1,8 @@
 # Evaluation Results Matrix
 
-This scaffold maps the shared 10 cases to baseline and ontology-governed evidence. Numeric timings remain measurement fields for the final run; the Phase 3/4 implementation supplies the evidence links and expected status.
+This matrix maps the shared 10 cases to baseline and ontology-governed evidence. Numeric timing cells are intentionally left as live-run fields; the current implementation supplies deterministic evidence and expected terminal status for each case.
 
-| Case | Baseline expected limitation | Final-solution evidence | Expected final status | Metrics to fill |
+| Case | Baseline expected limitation | Ontology evidence | Expected final status | Live-run fields |
 | --- | --- | --- | --- | --- |
 | CASE-01 | Manual notes can miss parent/child state boundaries. | `ex:transition_001`, `ex:validation_row_001` | `DONE_AUTON` | validated delivery time |
 | CASE-02 | Invalid Draft -> Released jump may be noticed late. | `ex:transition_invalid_001`, `ex:validation_row_002`, `invalid_taxonomy.jsonld` | `ERRORED` | diagnosis time |
@@ -14,6 +14,23 @@ This scaffold maps the shared 10 cases to baseline and ontology-governed evidenc
 | CASE-08 | Build/type warnings can be hidden by success-shaped summaries. | `ex:observability_row_case08`, `ex:validation_row_case08` | `ONLY_WARNING_TS` | containment score |
 | CASE-09 | Concurrent previous activity conflicts require manual reconstruction. | `ex:observability_row_case09`, `ex:validation_row_case09` | `ERRORED` | intersection resolution |
 | CASE-10 | Final closure can happen before warnings are accepted. | `ex:observability_row_case10`, `ex:validation_row_case10` | `WAITING_HF` | validated delivery time |
+
+## Measurement table
+
+Fill this table during the timed baseline and solution runs.
+
+| Case | Baseline delivery time | Solution delivery time | Baseline diagnosis time | Solution diagnosis time | Baseline doc bounces | Solution doc bounces | Containment score | Intersection resolved |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| CASE-01 | TBD | TBD | TBD | TBD | TBD | TBD | N/A | TBD |
+| CASE-02 | TBD | TBD | TBD | TBD | TBD | TBD | N/A | TBD |
+| CASE-03 | TBD | TBD | TBD | TBD | TBD | TBD | N/A | TBD |
+| CASE-04 | TBD | TBD | TBD | TBD | TBD | TBD | N/A | TBD |
+| CASE-05 | TBD | TBD | TBD | TBD | TBD | TBD | N/A | TBD |
+| CASE-06 | TBD | TBD | TBD | TBD | TBD | TBD | N/A | TBD |
+| CASE-07 | TBD | TBD | TBD | TBD | TBD | TBD | TBD | TBD |
+| CASE-08 | TBD | TBD | TBD | TBD | TBD | TBD | TBD | TBD |
+| CASE-09 | TBD | TBD | TBD | TBD | TBD | TBD | N/A | TBD |
+| CASE-10 | TBD | TBD | TBD | TBD | TBD | TBD | TBD | TBD |
 
 ## Route filters
 

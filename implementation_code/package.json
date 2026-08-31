@@ -7,6 +7,7 @@
     "dev": "react-router dev",
     "start": "react-router-serve ./build/server/index.js",
     "typecheck": "react-router typegen && tsc",
+    "validate:evaluation": "node ./scripts/validate-evaluation.mjs",
     "validate:ontology": "node ./scripts/validate-ontology.mjs"
   },
   "dependencies": {

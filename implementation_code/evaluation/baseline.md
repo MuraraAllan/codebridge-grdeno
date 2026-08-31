@@ -15,7 +15,7 @@ This baseline is the direct-agent/manual-documentation loop used for fair compar
 
 ## Shared cases
 
-Run the same 10 cases defined in `validation_version(withOntology)/design_evaluation.txt`.
+Run the same 10 cases defined in `evaluation/cases.json`.
 
 ## Measurement fields
 
@@ -32,3 +32,11 @@ For each case, record:
 ## Expected limitation
 
 The baseline may produce plausible outputs, but it cannot reliably prove which agent/tool caused a change, which axiom was involved, or whether a final event chain is safe to close.
+
+## Procedure
+
+1. Read one case from `evaluation/cases.json`.
+2. Ask one direct agent or human/manual loop to complete the described work without ontology graph evidence.
+3. Record the same measurement fields listed above in `evaluation/results.md`.
+4. Do not use `/validator`, `ontology/shapes.ttl`, `ontology/inference.rq`, or the immutable ledger for baseline decisions.
+5. Repeat for all 10 cases.
