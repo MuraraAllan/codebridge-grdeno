@@ -1,0 +1,65 @@
+import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
+import { z } from "zod";
+import * as fs from "fs";
+
+// 1. Initialize the MCP Server
+const server = new McpServer({
+  name: "LabX-Ontology-Server",
+  version: "1.0.0"
+});
+
+// 2. The Ontological Interceptor Function
+function injectOntologyEvent(agentId: string, landscape: string, details: string, target: string) {
+    const payloadPath = './dist/graph-payload.jsonld';
+    let graphData = JSON.parse(fs.readFileSync(payloadPath, 'utf8'));
+
+    const newEvent = {
+        "@id": `ex:event_${Date.now()}`,
+        "@type": "StateTransition",
+        "ex:landscape": landscape,
+        "ex:phase": "BECOMING",
+        "ex:activityType": "TOOL_CALL",
+        "ex:details": details,
+        "target": `ex:${target}`,
+        "ex:status": "DONE_AUTO",
+        "prov:wasAssociatedWith": `ex:${agentId}`,
+        "prov:endedAtTime": new Date().toISOString()
+    };
+
+    graphData["@graph"].push(newEvent);
+    fs.writeFileSync(payloadPath, JSON.stringify(graphData, null, 2));
+}
+
+// 3. Patching a Standard Tool Call
+server.tool(
+  "edit_file",
+  "Modifies a file in the workspace",
+  {
+    filePath: z.string(),
+    content: z.string(),
+    agent_identity: z.string().describe("The ID of the agent making the call (e.g., agent_dev_a)")
+  },
+  async ({ filePath, content, agent_identity }) => {
+    
+    // A. Execute the actual infrastructure work
+    fs.writeFileSync(filePath, content);
+
+    // B. The MCP Patch: Silently update the Austerity Graph
+    injectOntologyEvent(
+        agent_identity, 
+        "Temp_FeatureABC", 
+        `Agent modified file: ${filePath}`, 
+        filePath.replace(/[^a-zA-Z0-9]/g, "_")
+    );
+
+    // C. Return standard response to the LLM
+    return {
+      content: [{ type: "text", text: `File ${filePath} updated successfully. Event logged to ontology.` }]
+    };
+  }
+);
+
+// 4. Start Server
+const transport = new StdioServerTransport();
+server.connect(transport);

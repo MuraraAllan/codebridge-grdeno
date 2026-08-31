@@ -1,0 +1,59 @@
+// Initial - conceptual, definitions, validations, etc.
+// around 4 hours of planning - Solution, Overview, tackling. - nonoptmizable
+
+// around 6 hours of documenting - Collecting tools, establishing tasks... - optimizable
+// starting from 1:30 PM GMT - 3, i'm counting aproximately the time to go from the theory and tool base defined
+// to a POC, without the actual implementation of grdeno.
+
+
+// testing llms chunking in 2026 - 2 hours
+
+
+// during a deploy, first run review pipelines as proposed.
+// see how far to extend the visual part. Should we just add a simple check 5 px with the visual part of ontoloy
+// what about the rendering and definition of components?
+
+
+// we do need referencin, but in the landscape / domain area. We already have all we need in git
+
+
+// don't fetch this  https://attack.mitre.org/detectionstrategies/DET0274/
+// don't fetch this https://github.com/packetzero/go-atomicredteam
+// don't fetch this https://github.com/packetzero/dnsparser
+
+
+// should we bundle something on the lines with mcp?
+
+yes, lets start with the documentation, for such, let's consider the best way to enforce the shacl. Details on MCP, basically starting with I'm thinking just using the https://qdrant.tech/blog/case-study-datagraphs/ which is projected to be linked with superlinked SIE cloud version ( got access).
+
+Before we go to the BaseValidation (1,2,3,4) , lets tackle some specificities of each.
+
+4 - So some considerations, how do we ensure that each agent movement will trigger mcp? (Project but don't implement, it is hooks, but be detailed).
+
+Can, or actually, should we use https://github.com/modelcontextprotocol/inspector in the https://modelcontextprotocol.io/docs/2026-07-28/tools/inspector/protocol-eras era modern, and extend from that?
+
+Time to start defining the technical architecture.
+
+
+yes, lets start with the documentation, for such, let's consider the best way to enforce the shacl. Details on MCP, basically starting with I'm thinking just using the https://qdrant.tech/blog/case-study-datagraphs/ which is projected to be linked with superlinked SIE cloud version ( got access).
+
+Before we go to the BaseValidation (1,2,3,4) , lets tackle some specificities of each.
+
+4 - So some considerations, how do we ensure that each agent movement will trigger mcp? (Project but don't implement, it is hooks, but be detailed).
+
+Can, or actually, should we use https://github.com/modelcontextprotocol/inspector in the https://modelcontextprotocol.io/docs/2026-07-28/tools/inspector/protocol-eras era modern, and extend from that?
+
+Time to start defining the technical architecture.
+
+
+yes, lets start with the documentation, for such, let's consider the best way to enforce the shacl. Details on MCP, basically starting with I'm thinking just using the https://qdrant.tech/blog/case-study-datagraphs/ which is projected to be linked with superlinked SIE cloud version ( got access).
+
+Before we go to the BaseValidation (1,2,3,4) , lets tackle some specificities of each.
+
+4 - So some considerations, how do we ensure that each agent movement will trigger mcp? (Project but don't implement, it is hooks, but be detailed).
+
+Can, or actually, should we use https://github.com/modelcontextprotocol/inspector in the https://modelcontextprotocol.io/docs/2026-07-28/tools/inspector/protocol-eras era modern, and extend from that?
+
+Time to start defining the technical architecture.
+
+

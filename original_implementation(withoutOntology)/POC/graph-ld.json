@@ -1,0 +1,87 @@
+{
+  "@context": {
+    "ex": "http://labx.ai/ontology#",
+    "prov": "http://www.w3.org/ns/prov#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    
+    "Document": "ex:Document",
+    "Feature": "ex:Feature",
+    "Partial": "ex:Partial",
+    "StateTransition": "ex:StateTransition",
+    "InferredMacroState": "ex:InferredMacroState",
+    
+    "hasFeature": { "@id": "ex:hasFeature", "@type": "@id" },
+    "hasPartial": { "@id": "ex:hasPartial", "@type": "@id" },
+    
+    "target": { "@id": "ex:target", "@type": "@id" },
+    "fromState": { "@id": "ex:fromState", "@type": "@id" },
+    "toState": { "@id": "ex:toState", "@type": "@id" },
+    
+    "actor": { "@id": "prov:wasAssociatedWith", "@type": "@id" },
+    "domainScope": "ex:domainScope",
+    "timestamp": { "@id": "prov:endedAtTime", "@type": "xsd:dateTime" },
+    "commitHash": "ex:commitHash"
+  },
+  "@graph": [
+    {
+      "@id": "ex:agent_dev_01",
+      "@type": "prov:Agent",
+      "ex:role": "Developer",
+      "domainScope": "ex:DomainCode"
+    },
+    {
+      "@id": "ex:agent_doc_01",
+      "@type": "prov:Agent",
+      "ex:role": "Documenter",
+      "domainScope": "ex:DomainDocs"
+    },
+
+    {
+      "@id": "ex:doc_architecture_101",
+      "@type": "Document",
+      "ex:title": "Core System Architecture",
+      "hasFeature": "ex:feat_auth_gateway"
+    },
+    {
+      "@id": "ex:feat_auth_gateway",
+      "@type": "Feature",
+      "hasPartial": "ex:part_oauth_token"
+    },
+    {
+      "@id": "ex:part_oauth_token",
+      "@type": "Partial"
+    },
+
+    {
+      "@id": "ex:activity_dev_8829",
+      "@type": "StateTransition",
+      "target": "ex:part_oauth_token",
+      "fromState": "ex:Draft",
+      "toState": "ex:Review",
+      "actor": "ex:agent_dev_01",
+      "commitHash": "a1b2c3d",
+      "timestamp": "2026-08-30T14:00:00Z"
+    },
+    {
+      "@id": "ex:activity_dev_8830",
+      "@type": "StateTransition",
+      "target": "ex:part_oauth_token",
+      "fromState": "ex:Review",
+      "toState": "ex:Approved",
+      "actor": "ex:agent_dev_01",
+      "commitHash": "e5f6g7h",
+      "timestamp": "2026-08-30T15:30:00Z"
+    },
+
+    {
+      "@id": "ex:macro_inference_9001",
+      "@type": "InferredMacroState",
+      "target": "ex:doc_architecture_101",
+      "fromState": "ex:Released",
+      "toState": "ex:Outdated",
+      "actor": "ex:onto_controller_sparql",
+      "ex:triggerDependency": "ex:activity_dev_8830",
+      "timestamp": "2026-08-30T15:30:01Z"
+    }
+  ]
+}

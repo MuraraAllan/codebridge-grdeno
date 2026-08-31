@@ -1,0 +1,30 @@
+Ontology Generation using Large Language Models
+Anna Sofia Lippolis 1,2,∗
+Mohammad Javad Saeedizade 3,∗
+Robin Keskisärkkä
+Linköping University, Sweden
+javad.saeedizade@liu.se, robin.keskisarkka@liu.se, eva.blomqvist@liu.se
+Sara Zuppiroli
+ISTC-CNR, Italy
+andrea.nuzzolese@cnr.it,sara.zuppiroli@istc.cnr.it,miguel.ceriani@cnr.it
+Miguel Ceriani
+ISTC-CNR, Italy
+andrea.nuzzolese@cnr.it,sara.zuppiroli@istc.cnr.it,miguel.ceriani@cnr.it
+Aldo Gangemi
+University of Bologna, Italy
+annasofia.lippolis2@unibo.it, aldo.gangemi@unibo.it
+ISTC-CNR, Italy
+andrea.nuzzolese@cnr.it,sara.zuppiroli@istc.cnr.it,miguel.ceriani@cnr.it
+Eva Blomqvist
+Linköping University, Sweden
+javad.saeedizade@liu.se, robin.keskisarkka@liu.se, eva.blomqvist@liu.se
+Andrea Giovanni Nuzzolese
+ISTC-CNR, Italy
+andrea.nuzzolese@cnr.it,sara.zuppiroli@istc.cnr.it,miguel.ceriani@cnr.it
+Abstract
+The ontology engineering process is complex, time-consuming, and error-prone, even for experienced ontology engineers. In this work, we investigate the potential of Large Language Models (LLMs) to provide effective OWL ontology drafts directly from ontological requirements described
+
+
+https://arxiv.org/html/2503.05388v1#S6 <<
+
+https://arxiv.org/html/2503.05388v1#S6
