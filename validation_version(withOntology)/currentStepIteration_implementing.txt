@@ -1,0 +1,89 @@
+Current Step Iteration - Implementing
+=====================================
+
+FeedForward(>>>> Start the first implementation slice from implementation_plan.txt by creating a TypeScript React Router/Remix-compatible scaffold, ontology graph artifacts, SHACL compatibility, immutable ledger integration, and Qdrant collection understanding.)
+
+ContextTaskInterpreting
+-----------------------
+
+userMessageTaskList:
+1. Quickstart a default TypeScript React Router/Remix-compatible repository inside validation_version(withOntology).
+2. Use partials/shacl.js as the reference for implementing SHACL validation compatible with React Router server actions.
+3. Iterate over docs/ontology-representation-task-list.md and original_implementation(withoutOntology)/docs/strangling_and_shacling.md.
+4. For each implementation concern, create a reference partial under partials/ while distinguishing partials from real implementation.
+5. Start with JSON-LD graphs and implement up to React Router compatibility with SHACL validation.
+6. Build contextualUnderstanding for Qdrant collections so later work can store/retrieve ontology ledger vectors, but do not connect to Qdrant yet.
+7. Use partials/immutable_ledger.js as a reference for the real append-only store.
+8. Use partials/validator_router.js as a reference for the route-compatible validator integration.
+
+userMessageIntention:
+Move from planning into the first concrete implementation slice without losing the ontology rules: ONTO_CONTROLLER authors graph payloads, SHACL validates the graph, immutable ledger records outcomes, and React Router exposes the validation path.
+
+userMessageContextualDescription:
+The repository now needs a clear boundary between reference partials and the real implementation. Partials remain examples for communication and iteration; production-compatible code belongs in the React Router app and ontology folders.
+
+Implementation Boundary
+-----------------------
+
+Reference-only partials:
+- partials/current_step_react_router_quickstart.partial.ts
+- partials/current_step_shacl_compatibility.partial.ts
+- partials/current_step_jsonld_graph.partial.jsonld
+- partials/current_step_qdrant_collections.partial.ts
+
+Real implementation artifacts:
+- package.json
+- tsconfig.json
+- vite.config.ts
+- app/root.tsx
+- app/routes.ts
+- app/routes/home.tsx
+- app/routes/validator.tsx
+- app/lib/ontology/types.ts
+- app/lib/ontology/shaclValidator.server.ts
+- app/lib/ontology/immutableLedger.server.ts
+- app/lib/ontology/validatorRouter.server.ts
+- app/lib/ontology/qdrantCollections.ts
+- ontology/context.jsonld
+- ontology/shapes.ttl
+- ontology/graph-payload.jsonld
+- ontology/inference.rq
+
+currentStepIteration Tasklist
+-----------------------------
+
+| ID | Task | Source | Output | Status |
+| --- | --- | --- | --- | --- |
+| `CSI-001` | Create TypeScript React Router/Remix-compatible scaffold. | implementation_plan Phase 1 | package/config/app files | Planned in this slice |
+| `CSI-002` | Implement SHACL validator module based on partials/shacl.js. | partials/shacl.js | app/lib/ontology/shaclValidator.server.ts | Planned in this slice |
+| `CSI-003` | Implement validator router/action based on partials/validator_router.js. | partials/validator_router.js | app/lib/ontology/validatorRouter.server.ts and app/routes/validator.tsx | Planned in this slice |
+| `CSI-004` | Implement immutable audit ledger based on partials/immutable_ledger.js. | partials/immutable_ledger.js | app/lib/ontology/immutableLedger.server.ts | Planned in this slice |
+| `CSI-005` | Create JSON-LD context and graph payload for the six axioms and required views. | ontology-representation-task-list.md | ontology/context.jsonld and ontology/graph-payload.jsonld | Planned in this slice |
+| `CSI-006` | Create SHACL shapes for taxonomy, immutable anchors, hierarchy shield, domain isolation, and lastring gate. | strangling_and_shacling.md | ontology/shapes.ttl | Planned in this slice |
+| `CSI-007` | Create SPARQL inference query stubs for current state and macro projection. | implementation_plan Phase 3 | ontology/inference.rq | Planned in this slice |
+| `CSI-008` | Create Qdrant collection compatibility understanding without network integration. | Qdrant collection docs | app/lib/ontology/qdrantCollections.ts and partial | Planned in this slice |
+
+Qdrant Collection Contextual Understanding
+------------------------------------------
+
+Qdrant collections are named sets of vector points with payload metadata. For this project, use one primary collection with payload-based partitioning unless hard isolation is required. The compatible design is:
+
+- Collection: ontology_events
+- Dense vector: semantic_event_vector
+- Distance: Euclid, matching the current hybrid-vector direction.
+- Sparse vector: lexical_event_vector for keyword/symbol matching.
+- Payload partition keys: tenantId, landscapeRef, ontologyMode, axiomRef, targetNode, submittedBy, status.
+- Raw JSON-LD must remain in payload metadata so deterministic validation and exact filtering do not depend on embeddings.
+- Qdrant is not the source of truth for conformance. SHACL validation happens before ingestion.
+- The immutable ledger remains the source of audit sequencing; Qdrant is retrieval acceleration.
+
+Current Slice Acceptance
+------------------------
+
+- React Router TypeScript project metadata exists.
+- A validator route can accept JSON-LD and return validation/ledger status on the server side.
+- JSON-LD graph exists with anchors, events, required views, and lastring attempt.
+- SHACL shape file encodes the first deterministic constraints.
+- Qdrant compatibility is represented but not connected to external services.
+- Partials are clearly marked as reference-only and do not replace real implementation files.
+

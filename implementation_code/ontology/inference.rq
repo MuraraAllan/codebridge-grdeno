@@ -1,0 +1,50 @@
+PREFIX ex: <http://labx.ai/ontology#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+
+# Current state by latest timestamp.
+SELECT ?target ?state ?transition ?timestamp
+WHERE {
+  ?transition a ex:StateTransition ;
+    ex:target ?target ;
+    ex:toState ?state ;
+    prov:endedAtTime ?timestamp .
+
+  FILTER NOT EXISTS {
+    ?otherTransition a ex:StateTransition ;
+      ex:target ?target ;
+      prov:endedAtTime ?otherTimestamp .
+    FILTER(?otherTimestamp > ?timestamp)
+  }
+}
+
+# Rejected Partial -> BlockedByPartial Feature.
+CONSTRUCT {
+  ?feature ex:macroStatus ex:BlockedByPartial .
+}
+WHERE {
+  ?feature ex:hasPartial ?partial .
+  ?transition a ex:StateTransition ;
+    ex:target ?partial ;
+    ex:toState ex:Rejected ;
+    prov:endedAtTime ?timestamp .
+
+  FILTER NOT EXISTS {
+    ?otherTransition a ex:StateTransition ;
+      ex:target ?partial ;
+      prov:endedAtTime ?otherTimestamp .
+    FILTER(?otherTimestamp > ?timestamp)
+  }
+}
+
+# Released code -> InferredOutdated document.
+CONSTRUCT {
+  ?document ex:macroStatus ex:InferredOutdated .
+}
+WHERE {
+  ?document ex:hasFeature ?feature .
+  ?feature ex:hasPartial ?partial .
+  ?transition a ex:StateTransition ;
+    ex:target ?partial ;
+    ex:toState ex:Released ;
+    prov:endedAtTime ?timestamp .
+}

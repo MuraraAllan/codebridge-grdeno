@@ -1,0 +1,17 @@
+{
+  "@context": "../ontology/context.jsonld",
+  "@graph": [
+    {
+      "@id": "ex:partial_reference_only",
+      "@type": "ex:Partial",
+      "schema:identifier": "REFERENCE-ONLY"
+    },
+    {
+      "@id": "ex:partial_transition_reference_only",
+      "@type": "ex:StateTransition",
+      "ex:target": "ex:partial_reference_only",
+      "ex:fromState": "ex:Draft",
+      "ex:toState": "ex:Review"
+    }
+  ]
+}

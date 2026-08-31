@@ -1,0 +1,124 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix ex: <http://labx.ai/ontology#> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+
+ex:StateTransitionShape
+  a sh:NodeShape ;
+  sh:targetClass ex:StateTransition ;
+  sh:property [
+    sh:path ex:target ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+  ] ;
+  sh:property [
+    sh:path ex:toState ;
+    sh:in (ex:Draft ex:Review ex:Approved ex:Released ex:Rejected ex:InferredOutdated ex:BlockedByPartial ex:WaitingHumanFeedback ex:DoneAutonomous ex:DoneHumanFeedback) ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+  ] ;
+  sh:property [
+    sh:path prov:endedAtTime ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+  ] ;
+  sh:sparql [
+    sh:message "Invalid state transition. Cannot go directly from Draft to Released." ;
+    sh:select """
+      PREFIX ex: <http://labx.ai/ontology#>
+
+      SELECT $this
+      WHERE {
+        $this ex:fromState ex:Draft ;
+              ex:toState ex:Released .
+      }
+    """ ;
+  ] .
+
+ex:ImmutableAnchorShape
+  a sh:NodeShape ;
+  sh:targetClass ex:Document, ex:Feature, ex:Partial ;
+  sh:sparql [
+    sh:message "Immutable anchor violation. Static anchors must not carry direct lifecycle status." ;
+    sh:select """
+      PREFIX ex: <http://labx.ai/ontology#>
+
+      SELECT $this
+      WHERE {
+        $this ex:status ?status .
+      }
+    """ ;
+  ] .
+
+ex:HierarchyShieldShape
+  a sh:NodeShape ;
+  sh:targetClass ex:StateTransition ;
+  sh:sparql [
+    sh:message "Scope leak. A Partial-targeted activity cannot directly declare a parent Feature or Document lifecycle mutation." ;
+    sh:select """
+      PREFIX ex: <http://labx.ai/ontology#>
+
+      SELECT $this
+      WHERE {
+        $this ex:target ?target ;
+              ex:parentAnchor ?parent ;
+              ex:declaresParentState ?parentState .
+        ?target a ex:Partial .
+        ?parent a ex:Feature .
+      }
+    """ ;
+  ] .
+
+ex:DomainIsolationShape
+  a sh:NodeShape ;
+  sh:targetClass ex:StateTransition ;
+  sh:sparql [
+    sh:message "Horizontal domain breach. Developer agents cannot target Documents and Documentation agents cannot target code anchors." ;
+    sh:select """
+      PREFIX ex: <http://labx.ai/ontology#>
+      PREFIX prov: <http://www.w3.org/ns/prov#>
+
+      SELECT $this
+      WHERE {
+        $this ex:target ?target ;
+              prov:wasAssociatedWith ?actor .
+        ?actor ex:domainScope ?actorDomain .
+        ?target a ?targetType .
+        BIND(IF(?actorDomain = ex:DomainCode && ?targetType = ex:Document, true, false) AS ?codeBreach)
+        BIND(IF(?actorDomain = ex:DomainDocs && (?targetType = ex:Feature || ?targetType = ex:Partial), true, false) AS ?docBreach)
+        FILTER(?codeBreach = true || ?docBreach = true)
+      }
+    """ ;
+  ] .
+
+ex:LastringGateShape
+  a sh:NodeShape ;
+  sh:targetClass ex:Lastring ;
+  sh:property [
+    sh:path ex:sourceArtifact ;
+    sh:minCount 1 ;
+  ] ;
+  sh:property [
+    sh:path ex:closedEventChain ;
+    sh:minCount 1 ;
+  ] ;
+  sh:property [
+    sh:path ex:validationResult ;
+    sh:minCount 1 ;
+  ] ;
+  sh:property [
+    sh:path ex:approvedBy ;
+    sh:minCount 1 ;
+  ] ;
+  sh:sparql [
+    sh:message "Lastring cannot close while unresolved hard failures remain." ;
+    sh:select """
+      PREFIX ex: <http://labx.ai/ontology#>
+
+      SELECT $this
+      WHERE {
+        $this ex:validationResult ?result .
+        ?result ex:status ?status .
+        FILTER(?status = \"ERRORED\" || ?status = \"REJECTED\" || ?status = \"PENDING\")
+      }
+    """ ;
+  ] .
