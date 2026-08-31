@@ -241,4 +241,59 @@ Next Todo Shim
 | `CSI-020` | Add final documentation package. | REPRODUCTION.md, README_SUBMISSION.md, improvement_changelog.md, video_script.md | Done |
 | `CSI-021` | Validate Phase 5/7 evidence package. | npm run validate:evaluation, validate:ontology, typecheck, build | Done |
 | `CSI-022` | Fill live timed baseline/final values. | evaluation/results.md | Next |
-| `CSI-023` | Implement Phase 8 final verification checklist and lastring approval guard. | evaluation/final_checklist.md or equivalent | Next |
+| `CSI-023` | Implement Phase 8 final verification checklist and lastring approval guard. | evaluation/final_checklist.md or equivalent | Done |
+
+Phase 8 Guard Result
+--------------------
+
+Implemented in `implementation_code`:
+
+- `evaluation/final_checklist.md`
+  - maps `IMP-0801` through `IMP-0806` to evidence, current status, and close conditions
+  - documents eligibility checks and data/privacy constraints
+  - preserves the lastring requirement that `DONE_HF` requires explicit human approval
+- `scripts/validate-evaluation.mjs`
+  - verifies `evaluation/final_checklist.md` exists and includes all Phase 8 gates
+  - verifies the graph lastring remains `WAITING_HF`
+  - rejects premature `DONE_HF` lastring closure
+  - verifies live timing fields remain explicit for the next measured run
+
+Validation:
+
+```text
+npm run validate:evaluation
+PASS all 10 cases reference existing graph and validation evidence.
+PASS results matrix covers every shared case.
+PASS final documentation files exist.
+PASS five required agent trajectories are complete enough for review.
+PASS lastring remains guarded at WAITING_HF.
+PASS final checklist covers Phase 8 gates.
+PASS live timing fields remain explicit for the next measured run.
+
+npm run validate:ontology
+PASS graph-payload.jsonld contains all required nodes.
+PASS evaluation/cases.json maps all 10 cases to graph validation evidence.
+PASS 8/8 fixture cases.
+
+npm run typecheck
+PASS
+
+npm run build
+PASS
+```
+
+Current phase:
+- Phase 8 verification guard: complete for first-pass packaging.
+- Lastring closure: intentionally not complete; it is blocked on timed metrics and human approval.
+
+Next phase:
+- Fill live timed baseline/final values in `evaluation/results.md`.
+- After human review, add explicit approval evidence before changing lastring to `DONE_HF`.
+
+Next Todo Shim
+--------------
+
+| ID | Task | Output | Status |
+| --- | --- | --- | --- |
+| `CSI-024` | Run and record timed baseline/final measurements. | evaluation/results.md | Next |
+| `CSI-025` | Add human approval evidence and close lastring only after review. | graph payload + final checklist | Blocked |

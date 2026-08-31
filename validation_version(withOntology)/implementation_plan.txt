@@ -266,6 +266,12 @@ Tasks:
 | `IMP-0805` | Attempt `REGISTER_LASTRING`. | Lastring evidence row | Remains blocked until all evidence is complete. |
 | `IMP-0806` | Human approves final closure. | `DONE_HF` lastring row | Final lifecycle closed. |
 
+Current evidence:
+- `implementation_code/evaluation/final_checklist.md` maps every Phase 8 gate to evidence, current status, and close condition.
+- `implementation_code/scripts/validate-evaluation.mjs` now checks that the final checklist exists, covers `IMP-0801` through `IMP-0806`, preserves `WAITING_HF`, and rejects premature `DONE_HF` lastring closure.
+- `implementation_code/evaluation/results.md` keeps live timing fields explicit as `TBD` until measured baseline/final runs are recorded.
+- Lastring closure remains intentionally blocked until timed metrics and human approval evidence exist.
+
 Implementation Order
 --------------------
 

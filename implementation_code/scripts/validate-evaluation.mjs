@@ -26,6 +26,7 @@ console.log("\n-- Evaluation harness integrity --");
 const casesPath = resolve(root, "evaluation/cases.json");
 const resultsPath = resolve(root, "evaluation/results.md");
 const graphPath = resolve(root, "ontology/graph-payload.jsonld");
+const finalChecklistPath = resolve(root, "evaluation/final_checklist.md");
 const casesPayload = await readJson(casesPath);
 const graphPayload = await readJson(graphPath);
 const graphNodes = Array.isArray(graphPayload["@graph"]) ? graphPayload["@graph"] : [];
@@ -57,6 +58,7 @@ const requiredDocs = [
   ["evaluation/baseline.md", "baseline runner"],
   ["evaluation/solution.md", "solution runner"],
   ["evaluation/results.md", "results matrix"],
+  ["evaluation/final_checklist.md", "final verification checklist"],
   ["evaluation/improvement_changelog.md", "improvement changelog"],
   ["evaluation/video_script.md", "video script"],
   ["REPRODUCTION.md", "reproduction guide"],
@@ -88,5 +90,33 @@ for (const file of trajectoryFiles) {
   }
 }
 console.log("  PASS  five required agent trajectories are complete enough for review.");
+
+const lastring = graphNodes.find((node) => node["@id"] === "ex:lastring_ontology_representation_task_list");
+assert(lastring, "Graph payload must include lastring evidence.");
+assert(lastring.status === "WAITING_HF", "Lastring must remain WAITING_HF until human reviewer approval.");
+
+const prematureDoneHumanFeedback = graphNodes.find(
+  (node) => node["@type"] === "Lastring" && node.status === "DONE_HF",
+);
+assert(!prematureDoneHumanFeedback, "Lastring must not reach DONE_HF before explicit human approval.");
+console.log("  PASS  lastring remains guarded at WAITING_HF.");
+
+const finalChecklist = await assertFile(finalChecklistPath, "final verification checklist");
+for (const requiredGate of [
+  "IMP-0801",
+  "IMP-0802",
+  "IMP-0803",
+  "IMP-0804",
+  "IMP-0805",
+  "IMP-0806",
+]) {
+  assert(finalChecklist.includes(requiredGate), `final checklist must include ${requiredGate}.`);
+}
+assert(finalChecklist.includes("WAITING_HF"), "final checklist must document WAITING_HF lastring state.");
+assert(finalChecklist.includes("DONE_HF requires explicit human approval"), "final checklist must preserve human approval guard.");
+console.log("  PASS  final checklist covers Phase 8 gates.");
+
+assert(results.includes("TBD"), "results matrix must keep live timing fields explicit until timed runs are recorded.");
+console.log("  PASS  live timing fields remain explicit for the next measured run.");
 
 console.log("\n-- Result: evaluation harness passed --");
