@@ -48,3 +48,34 @@ WHERE {
     ex:toState ex:Released ;
     prov:endedAtTime ?timestamp .
 }
+
+# Synchronized release readiness for code and documentation.
+SELECT ?document ?feature ?partial ?codeReleaseTransition ?documentReleaseTransition
+WHERE {
+  ?document ex:hasFeature ?feature .
+  ?feature ex:hasPartial ?partial .
+
+  ?codeReleaseTransition a ex:StateTransition ;
+    ex:target ?partial ;
+    ex:toState ex:Released ;
+    prov:endedAtTime ?codeTimestamp .
+
+  ?documentReleaseTransition a ex:StateTransition ;
+    ex:target ?document ;
+    ex:toState ex:Released ;
+    prov:endedAtTime ?documentTimestamp .
+
+  FILTER NOT EXISTS {
+    ?laterCodeTransition a ex:StateTransition ;
+      ex:target ?partial ;
+      prov:endedAtTime ?laterCodeTimestamp .
+    FILTER(?laterCodeTimestamp > ?codeTimestamp)
+  }
+
+  FILTER NOT EXISTS {
+    ?laterDocumentTransition a ex:StateTransition ;
+      ex:target ?document ;
+      prov:endedAtTime ?laterDocumentTimestamp .
+    FILTER(?laterDocumentTimestamp > ?documentTimestamp)
+  }
+}

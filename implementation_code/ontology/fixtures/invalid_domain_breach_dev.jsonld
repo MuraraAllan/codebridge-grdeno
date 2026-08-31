@@ -1,0 +1,29 @@
+{
+  "@context": {
+    "ex": "http://labx.ai/ontology#",
+    "prov": "http://www.w3.org/ns/prov#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "Document": "ex:Document",
+    "StateTransition": "ex:StateTransition",
+    "DeveloperAgent": "ex:DeveloperAgent",
+    "target": { "@id": "ex:target", "@type": "@id" },
+    "fromState": { "@id": "ex:fromState", "@type": "@id" },
+    "toState": { "@id": "ex:toState", "@type": "@id" },
+    "timestamp": { "@id": "prov:endedAtTime", "@type": "xsd:dateTime" },
+    "wasAssociatedWith": { "@id": "prov:wasAssociatedWith", "@type": "@id" },
+    "domainScope": { "@id": "ex:domainScope", "@type": "@id" }
+  },
+  "@graph": [
+    { "@id": "ex:doc_101", "@type": "Document" },
+    { "@id": "ex:agent_dev_a", "@type": "DeveloperAgent", "domainScope": "ex:DomainCode" },
+    {
+      "@id": "ex:transition_dev_to_doc",
+      "@type": "StateTransition",
+      "target": "ex:doc_101",
+      "fromState": "ex:Draft",
+      "toState": "ex:Review",
+      "timestamp": "2026-08-31T18:00:00Z",
+      "wasAssociatedWith": "ex:agent_dev_a"
+    }
+  ]
+}

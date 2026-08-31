@@ -4,6 +4,7 @@ import jsonld from "jsonld";
 import { DataFactory, Parser, Store } from "n3";
 import type { Quad } from "n3";
 import { Validator } from "shacl-engine";
+import { targetResolvers, validations } from "shacl-engine/sparql.js";
 
 import type {
   OntologyValidationDecision,
@@ -107,8 +108,12 @@ export async function validateOntologyPayload({
   const dataDataset = await loadToDataset(dataContent, dataFormat);
   const shapeDataset = await loadToDataset(shapeContent, "turtle");
 
-  const validator = new Validator(shapeDataset, { factory: DataFactory });
-  const report = await validator.validate(dataDataset);
+  const validator = new Validator(shapeDataset, {
+    factory: DataFactory,
+    targetResolvers,
+    validations,
+  });
+  const report = await validator.validate({ dataset: dataDataset });
 
   if (report.conforms) {
     return { conforms: true, errors: [] };

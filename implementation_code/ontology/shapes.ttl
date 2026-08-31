@@ -90,6 +90,23 @@ ex:DomainIsolationShape
     """ ;
   ] .
 
+ex:PreviousActivityChainShape
+  a sh:NodeShape ;
+  sh:targetClass ex:StateTransition ;
+  sh:sparql [
+    sh:message "Concurrency violation. A previousActivity can only be claimed by one successor transition." ;
+    sh:select """
+      PREFIX ex: <http://labx.ai/ontology#>
+
+      SELECT $this
+      WHERE {
+        $this ex:previousActivity ?previous .
+        ?otherTransition ex:previousActivity ?previous .
+        FILTER(?otherTransition != $this)
+      }
+    """ ;
+  ] .
+
 ex:LastringGateShape
   a sh:NodeShape ;
   sh:targetClass ex:Lastring ;

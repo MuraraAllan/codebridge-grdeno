@@ -1,0 +1,35 @@
+{
+  "@context": {
+    "ex": "http://labx.ai/ontology#",
+    "prov": "http://www.w3.org/ns/prov#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "Partial": "ex:Partial",
+    "StateTransition": "ex:StateTransition",
+    "target": { "@id": "ex:target", "@type": "@id" },
+    "fromState": { "@id": "ex:fromState", "@type": "@id" },
+    "toState": { "@id": "ex:toState", "@type": "@id" },
+    "timestamp": { "@id": "prov:endedAtTime", "@type": "xsd:dateTime" },
+    "previousActivity": { "@id": "ex:previousActivity", "@type": "@id" }
+  },
+  "@graph": [
+    { "@id": "ex:part_shacl_validator", "@type": "Partial" },
+    {
+      "@id": "ex:transition_race_001",
+      "@type": "StateTransition",
+      "target": "ex:part_shacl_validator",
+      "fromState": "ex:Review",
+      "toState": "ex:Approved",
+      "timestamp": "2026-08-31T18:00:00Z",
+      "previousActivity": "ex:transition_8800"
+    },
+    {
+      "@id": "ex:transition_race_002",
+      "@type": "StateTransition",
+      "target": "ex:part_shacl_validator",
+      "fromState": "ex:Review",
+      "toState": "ex:Rejected",
+      "timestamp": "2026-08-31T18:00:01Z",
+      "previousActivity": "ex:transition_8800"
+    }
+  ]
+}

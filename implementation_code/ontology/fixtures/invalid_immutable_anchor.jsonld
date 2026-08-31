@@ -1,0 +1,14 @@
+{
+  "@context": {
+    "ex": "http://labx.ai/ontology#",
+    "Document": "ex:Document",
+    "status": "ex:status"
+  },
+  "@graph": [
+    {
+      "@id": "ex:doc_101",
+      "@type": "Document",
+      "status": "Draft"
+    }
+  ]
+}

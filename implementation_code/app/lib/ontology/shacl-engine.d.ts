@@ -13,6 +13,11 @@ declare module "shacl-engine" {
 
   export class Validator {
     constructor(shapeDataset: unknown, options?: unknown);
-    validate(dataDataset: unknown): Promise<ShaclValidationReport>;
+    validate(data: { dataset: unknown }): Promise<ShaclValidationReport>;
   }
+}
+
+declare module "shacl-engine/sparql.js" {
+  export const targetResolvers: unknown;
+  export const validations: unknown;
 }

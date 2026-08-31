@@ -99,6 +99,9 @@ Phase 2 - SHACL Governance
 Goal:
 Implement deterministic shackling for the six axioms.
 
+Status:
+DONE for the current implementation slice. The React Router implementation in `implementation_code` now includes deterministic SHACL shapes, invalid/valid JSON-LD fixtures, and a validation script that confirms the expected conformance result for every fixture.
+
 Tasks:
 
 | ID | Task | Output | Axiom |
@@ -115,6 +118,11 @@ Acceptance:
 - Cross-domain mutation attempts are rejected.
 - Parent mutation from lower-level events is rejected.
 - Lastring cannot close while evidence is incomplete.
+
+Current evidence:
+- `implementation_code/ontology/shapes.ttl` contains `StateTransitionShape`, `ImmutableAnchorShape`, `HierarchyShieldShape`, `DomainIsolationShape`, `PreviousActivityChainShape`, and `LastringGateShape`.
+- `implementation_code/ontology/fixtures/` contains one valid happy-path fixture and seven invalid fixtures.
+- `npm run validate:ontology` passes with `8/8` fixture cases matching expected conformance.
 
 Phase 3 - Macro Inference
 -------------------------
@@ -134,6 +142,11 @@ Tasks:
 Acceptance:
 - Macro-state is derived from event history.
 - No micro-agent event directly writes parent/macro state.
+
+Current evidence:
+- `implementation_code/ontology/inference.rq` now includes current-state, `BlockedByPartial`, `InferredOutdated`, and synchronized-release queries.
+- `implementation_code/ontology/graph-payload.jsonld` now includes case-tagged evidence rows for the macro-inference cases.
+- `implementation_code/evaluation/cases.json` maps all 10 design-evaluation cases to graph, validation, fixture, or query evidence.
 
 Phase 4 - POC Graph Payload
 ---------------------------
@@ -155,6 +168,10 @@ Tasks:
 Acceptance:
 - The payload demonstrates all 10 evaluation cases or has fixtures for cases that must remain invalid.
 - The payload includes evidence for all six axioms and lastring.
+
+Current evidence:
+- `implementation_code/ontology/graph-payload.jsonld` includes happy-path anchors, valid StateTransitions, all 10 case IDs, observability rows, validation rows, rejected event evidence, domain-breach evidence, warning evidence, concurrency evidence, and a `WAITING_HF` lastring.
+- `implementation_code/app/routes/validator.tsx` renders before-processing observability and struggling/validation tables from the graph payload with case ID and axiom ID filters.
 
 Phase 5 - Evaluation Harness
 ----------------------------
@@ -252,19 +269,27 @@ Implementation Order
 Ready Todo Intersection
 -----------------------
 
-The current ready todos indicate the first implementation slice should focus on:
+The first implementation slice focused on:
 
 1. `state-taxonomy`
 2. `append-only-event-store`
 3. `axiom-static-identity-rule`
 4. `axiom-observability-filters`
 
-Recommended first coding/documentation batch:
+Completed first coding/documentation batch:
 
 1. Create `ontology/context.jsonld`.
 2. Define state taxonomy and immutable anchor vocabulary.
 3. Define `StateTransition` and validation row fields.
 4. Add observability filters for `AxiomRef`, `TargetNode`, `ParentAnchor`, `ValidationRule`, and `RecoveryAction`.
+
+Current phase:
+Phase 1 through Phase 4 are complete for the first implementation pass. Phase 3/4 hardening now expands macro-inference evaluation evidence and graph payload coverage to all 10 evaluation cases.
+
+Next ready implementation batch:
+1. Fill measured baseline and final values in `evaluation/results.md`.
+2. Create final reproduction/submission documents from the implemented evidence.
+3. Run final deliverable checks before requesting human lastring approval.
 
 Risk Controls
 -------------
@@ -296,11 +321,13 @@ ContextChanges
 L1:
 - Added this implementation plan as the bridge from design evaluation to build execution.
 - Defined concrete repository artifacts and implementation phases.
+- Updated the plan after implementing Phase 2 SHACL governance fixtures, validation script coverage, synchronized-release inference, and visual validator tables.
 
 L2:
 - Mapped evaluation metrics and judging deliverables to build phases, outputs, and acceptance gates.
 - Identified the ready todo intersection for the first implementation slice.
+- Phase 2 now has executable evidence: `npm run validate:ontology` passes all expected valid/invalid SHACL cases, and direct TypeScript checking passes.
 
 L3:
-- This is still planning/documentation work; runtime implementation has not started.
-- Remaining action is to create the ontology, SHACL, inference, graph payload, evaluation, trajectory, and final submission files described above.
+- Runtime implementation has started in `implementation_code`.
+- Remaining action is to expand evaluation cases/results, trajectories, final submission docs, and lastring closure evidence.

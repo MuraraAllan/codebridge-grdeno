@@ -62,6 +62,11 @@ currentStepIteration Tasklist
 | `CSI-006` | Create SHACL shapes for taxonomy, immutable anchors, hierarchy shield, domain isolation, and lastring gate. | strangling_and_shacling.md | ontology/shapes.ttl | Planned in this slice |
 | `CSI-007` | Create SPARQL inference query stubs for current state and macro projection. | implementation_plan Phase 3 | ontology/inference.rq | Planned in this slice |
 | `CSI-008` | Create Qdrant collection compatibility understanding without network integration. | Qdrant collection docs | app/lib/ontology/qdrantCollections.ts and partial | Planned in this slice |
+| `CSI-009` | Add SHACL fixture suite for Phase 2 acceptance. | implementation_plan Phase 2 | ontology/fixtures/*.jsonld | Done |
+| `CSI-010` | Extend validation script to assert valid/invalid fixture conformance. | Phase 2 todo list | scripts/validate-ontology.mjs | Done |
+| `CSI-011` | Add previousActivity concurrency shield. | AXIOM-001 and AXIOM-004 | ontology/shapes.ttl | Done |
+| `CSI-012` | Add synchronized-release inference query. | Phase 3 overflow | ontology/inference.rq | Done |
+| `CSI-013` | Render mandatory visual support tables in validator route. | Required screenshot views | app/routes/validator.tsx | Done |
 
 Qdrant Collection Contextual Understanding
 ------------------------------------------
@@ -87,3 +92,85 @@ Current Slice Acceptance
 - Qdrant compatibility is represented but not connected to external services.
 - Partials are clearly marked as reference-only and do not replace real implementation files.
 
+Current Execution Result
+------------------------
+
+Phases 1, 2, 3, and 4 are now implemented for this slice, with the Phase 3/4 evidence-hardening batch complete.
+
+Implemented in `implementation_code`:
+
+- `ontology/shapes.ttl`
+  - `StateTransitionShape`
+  - `ImmutableAnchorShape`
+  - `HierarchyShieldShape`
+  - `DomainIsolationShape`
+  - `PreviousActivityChainShape`
+  - `LastringGateShape`
+- `ontology/fixtures/`
+  - `happy_path.jsonld`
+  - `invalid_taxonomy.jsonld`
+  - `invalid_immutable_anchor.jsonld`
+  - `invalid_hierarchy_scope_leak.jsonld`
+  - `invalid_domain_breach_dev.jsonld`
+  - `invalid_domain_breach_doc.jsonld`
+  - `invalid_lastring_blocked.jsonld`
+  - `invalid_previousactivity_conflict.jsonld`
+- `scripts/validate-ontology.mjs`
+  - graph payload integrity check
+  - 10 evaluation case coverage assertions
+  - 8 fixture conformance assertions
+- `evaluation/cases.json`
+  - shared 10-case design-evaluation dataset
+- `evaluation/results.md`
+  - baseline vs ontology-governed result matrix scaffold
+- `app/routes/validator.tsx`
+  - before-processing observability table
+  - struggling/validation table
+  - case ID and axiom ID filters
+- `app/lib/ontology/validatorRouter.server.ts`
+  - loader-side evidence filtering and filter option derivation
+- `ontology/inference.rq`
+  - synchronized release readiness query added
+- `ontology/graph-payload.jsonld`
+  - caseId and metricFocus fields added to evidence rows
+  - all 10 design-evaluation cases represented by graph and validation evidence
+- `trajectories/`
+  - Developer, Documentation, QA, ONTO_CONTROLLER, and Human Reviewer trajectory scaffolds
+
+Validation:
+
+```text
+npm run validate:ontology
+PASS graph-payload.jsonld contains all required nodes.
+PASS evaluation/cases.json maps all 10 cases to graph validation evidence.
+PASS 8/8 fixture cases.
+
+npm run typecheck
+PASS
+
+npm run build
+PASS
+```
+
+Phase Transition
+----------------
+
+Current phase:
+- Phase 1 - Ontology Core: complete for the first implementation pass.
+- Phase 2 - SHACL Governance: complete for the first implementation pass.
+- Phase 3 - Macro Inference: complete for the first implementation pass.
+- Phase 4 - POC Graph Payload: complete for the first implementation pass.
+
+Next phase:
+- Phase 5+ measurement/documentation hardening: fill measured baseline/final values, complete reproduction/submission docs, and close lastring after human approval.
+
+Next Todo Shim
+--------------
+
+| ID | Task | Output | Status |
+| --- | --- | --- | --- |
+| `CSI-014` | Create `evaluation/cases.json` from the 10 design-evaluation cases. | evaluation/cases.json | Done |
+| `CSI-015` | Add caseId fields to graph payload observability and validation rows. | ontology/graph-payload.jsonld | Done |
+| `CSI-016` | Add validator route filters for case ID and axiom ID. | app/routes/validator.tsx | Done |
+| `CSI-017` | Create initial results matrix scaffold. | evaluation/results.md | Done |
+| `CSI-018` | Add trajectory placeholders for all five agents. | trajectories/*.md | Done |

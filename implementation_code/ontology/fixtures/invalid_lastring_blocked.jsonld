@@ -1,0 +1,30 @@
+{
+  "@context": {
+    "ex": "http://labx.ai/ontology#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "Lastring": "ex:Lastring",
+    "ValidationResult": "ex:ValidationResult",
+    "sourceArtifact": { "@id": "ex:sourceArtifact", "@type": "@id" },
+    "closedEventChain": { "@id": "ex:closedEventChain", "@type": "@id" },
+    "validationResult": { "@id": "ex:validationResult", "@type": "@id" },
+    "approvedBy": { "@id": "ex:approvedBy", "@type": "@id" },
+    "registeredAt": { "@id": "ex:registeredAt", "@type": "xsd:dateTime" },
+    "status": "ex:status"
+  },
+  "@graph": [
+    {
+      "@id": "ex:validation_failed",
+      "@type": "ValidationResult",
+      "status": "ERRORED"
+    },
+    {
+      "@id": "ex:lastring_blocked",
+      "@type": "Lastring",
+      "sourceArtifact": "ex:artifact_ontology_representation_task_list",
+      "closedEventChain": "ex:transition_001",
+      "validationResult": "ex:validation_failed",
+      "approvedBy": "ex:human_reviewer",
+      "registeredAt": "2026-08-31T18:02:00Z"
+    }
+  ]
+}

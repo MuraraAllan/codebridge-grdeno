@@ -1,0 +1,126 @@
+{
+  "schemaVersion": 1,
+  "source": "validation_version(withOntology)/design_evaluation.txt",
+  "cases": [
+    {
+      "id": "CASE-01",
+      "description": "Valid Partial moves from Draft to Review.",
+      "difficultyFocus": "Basic lifecycle",
+      "primaryMetric": "validatedDeliveryTime",
+      "expectedEvidence": {
+        "graphRows": ["ex:transition_001", "ex:observability_row_001"],
+        "validationRows": ["ex:validation_row_001"],
+        "axioms": ["ex:AXIOM-001", "ex:AXIOM-002", "ex:AXIOM-004"],
+        "fixtures": ["ontology/fixtures/happy_path.jsonld"]
+      }
+    },
+    {
+      "id": "CASE-02",
+      "description": "Invalid Partial attempts direct Draft to Released.",
+      "difficultyFocus": "Taxonomy violation",
+      "primaryMetric": "timeToFirstActionableFailureDiagnosis",
+      "expectedEvidence": {
+        "graphRows": ["ex:transition_invalid_001"],
+        "validationRows": ["ex:validation_row_002"],
+        "axioms": ["ex:AXIOM-004"],
+        "fixtures": ["ontology/fixtures/invalid_taxonomy.jsonld"]
+      }
+    },
+    {
+      "id": "CASE-03",
+      "description": "Partial reaches Rejected; Feature becomes BlockedByPartial by inference.",
+      "difficultyFocus": "Macro inference",
+      "primaryMetric": "intersectionResolutionRate",
+      "expectedEvidence": {
+        "graphRows": ["ex:transition_case03_rejected_partial", "ex:observability_row_case03"],
+        "validationRows": ["ex:validation_row_case03"],
+        "axioms": ["ex:AXIOM-005"],
+        "queries": ["Rejected Partial -> BlockedByPartial Feature"]
+      }
+    },
+    {
+      "id": "CASE-04",
+      "description": "Feature reaches Released; documentation becomes InferredOutdated.",
+      "difficultyFocus": "Documentation synchronization",
+      "primaryMetric": "documentationBounceCount",
+      "expectedEvidence": {
+        "graphRows": ["ex:transition_case04_code_released", "ex:observability_row_case04"],
+        "validationRows": ["ex:validation_row_case04"],
+        "axioms": ["ex:AXIOM-005", "ex:AXIOM-006"],
+        "queries": ["Released code -> InferredOutdated document"]
+      }
+    },
+    {
+      "id": "CASE-05",
+      "description": "Developer agent tries to update documentation directly.",
+      "difficultyFocus": "Horizontal domain breach",
+      "primaryMetric": "timeToFirstActionableFailureDiagnosis",
+      "expectedEvidence": {
+        "graphRows": ["ex:transition_domain_breach_001"],
+        "validationRows": ["ex:validation_row_003"],
+        "axioms": ["ex:AXIOM-006"],
+        "fixtures": ["ontology/fixtures/invalid_domain_breach_dev.jsonld"]
+      }
+    },
+    {
+      "id": "CASE-06",
+      "description": "Document agent tries to alter code-owned Partial.",
+      "difficultyFocus": "Reverse horizontal breach",
+      "primaryMetric": "timeToFirstActionableFailureDiagnosis",
+      "expectedEvidence": {
+        "graphRows": ["ex:observability_row_case06"],
+        "validationRows": ["ex:validation_row_case06"],
+        "axioms": ["ex:AXIOM-006"],
+        "fixtures": ["ontology/fixtures/invalid_domain_breach_doc.jsonld"]
+      }
+    },
+    {
+      "id": "CASE-07",
+      "description": "Small visual label/status change affects screenshot evidence.",
+      "difficultyFocus": "Visual breaking change",
+      "primaryMetric": "smallBreakingChangeContainmentScore",
+      "expectedEvidence": {
+        "graphRows": ["ex:observability_row_case07"],
+        "validationRows": ["ex:validation_row_case07"],
+        "axioms": ["ex:AXIOM-004"],
+        "routeFilter": "/validator?caseId=CASE-07"
+      }
+    },
+    {
+      "id": "CASE-08",
+      "description": "Small code change creates type/build warning.",
+      "difficultyFocus": "Code breaking change",
+      "primaryMetric": "smallBreakingChangeContainmentScore",
+      "expectedEvidence": {
+        "graphRows": ["ex:observability_row_case08"],
+        "validationRows": ["ex:validation_row_case08"],
+        "axioms": ["ex:AXIOM-004"],
+        "routeFilter": "/validator?caseId=CASE-08"
+      }
+    },
+    {
+      "id": "CASE-09",
+      "description": "Two agents race from the same previous activity.",
+      "difficultyFocus": "Concurrency/previous-event conflict",
+      "primaryMetric": "intersectionResolutionRate",
+      "expectedEvidence": {
+        "graphRows": ["ex:observability_row_case09"],
+        "validationRows": ["ex:validation_row_case09"],
+        "axioms": ["ex:AXIOM-001", "ex:AXIOM-004"],
+        "fixtures": ["ontology/fixtures/invalid_previousactivity_conflict.jsonld"]
+      }
+    },
+    {
+      "id": "CASE-10",
+      "description": "Final merge attempts lastring registration with unresolved warning.",
+      "difficultyFocus": "Closure gate",
+      "primaryMetric": "validatedDeliveryTime",
+      "expectedEvidence": {
+        "graphRows": ["ex:observability_row_case10", "ex:lastring_ontology_representation_task_list"],
+        "validationRows": ["ex:validation_row_case10"],
+        "axioms": ["ex:AXIOM-007"],
+        "fixtures": ["ontology/fixtures/invalid_lastring_blocked.jsonld"]
+      }
+    }
+  ]
+}
